@@ -1,0 +1,108 @@
+import React, { useState } from 'react';
+import { MdVisibility, MdVisibilityOff, MdPersonAdd } from 'react-icons/md';
+import SecurityBadges from '../../components/SecurityBadges/SecurityBadges';
+import './Cadastro.css';
+
+const Cadastro = ({ onNavigateToLogin }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Functionality for registration is out of scope for visual tasks
+  };
+
+  return (
+    <div className="cadastro-card-container">
+      <div className="cadastro-card">
+        <div className="cadastro-header">
+          <h1>Cadastro Médico</h1>
+          <p>Crie sua conta profissional no Tila para gerar laudos automatizados.</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="cadastro-form">
+          <div className="form-group">
+            <label htmlFor="nome">Nome Completo</label>
+            <input
+              type="text"
+              id="nome"
+              placeholder="Dr. João da Silva"
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-row">
+            <div className="form-group flex-1">
+              <label htmlFor="crm">CRM</label>
+              <input
+                type="text"
+                id="crm"
+                placeholder="000000-SP"
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-group flex-1">
+              <label htmlFor="especialidade">Especialidade</label>
+              <input
+                type="text"
+                id="especialidade"
+                placeholder="Radiologia"
+                className="form-input"
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="email">E-mail Profissional</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="medico@clinica.com"
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">Senha</label>
+            <div className="password-input-wrapper">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                placeholder="••••••••"
+                className="form-input password-input"
+              />
+              <button
+                type="button"
+                className="toggle-password-btn"
+                onClick={togglePasswordVisibility}
+                aria-label="Toggle password visibility"
+              >
+                {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" className="submit-btn cadastro-submit-btn">
+            <MdPersonAdd className="btn-icon" />
+            Criar Conta
+          </button>
+          
+          <div className="auth-switch-container">
+            <span className="auth-switch-text">Já possui uma conta?</span>
+            <button type="button" onClick={onNavigateToLogin} className="auth-switch-btn">
+              Faça login
+            </button>
+          </div>
+        </form>
+
+        <SecurityBadges />
+      </div>
+    </div>
+  );
+};
+
+export default Cadastro;

@@ -1,0 +1,29 @@
+import React from 'react';
+import './Header.css';
+
+const Header = () => {
+  return (
+    <header className="header">
+      <div className="header-logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="logo-icon">
+          <path d="M12 2L2 12l10 10 10-10L12 2z" fill="currentColor" />
+          <path d="M12 2L2 12l10 10V2z" fill="#0b57d0" />
+          <path d="M12 2l10 10-10 10V2z" fill="#1a73e8" />
+        </svg>
+        <span className="logo-text">Tila</span>
+      </div>
+      
+      <div className="header-actions">
+        <span className="version-text">Portal Médico v2.4</span>
+        <div className="icon-wrapper">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zm0-2a7 7 0 1 1 0-14 7 7 0 0 1 0 14z" fill="#5f6368" />
+            <path d="M11 6h2v6h-2zm0 8h2v2h-2z" fill="#5f6368" />
+          </svg>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Header;
