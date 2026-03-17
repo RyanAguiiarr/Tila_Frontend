@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MdVisibility, MdVisibilityOff, MdPersonAdd } from 'react-icons/md';
 import SecurityBadges from '../../components/SecurityBadges/SecurityBadges';
 import './Cadastro.css';
+import { apiCadastro } from '../../api/cadastro/apiCadastro';
 
 const Cadastro = ({ onNavigateToLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,8 +13,19 @@ const Cadastro = ({ onNavigateToLogin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Functionality for registration is out of scope for visual tasks
   };
+  
+  const handleCadastro = () => {
+    const req = {
+      nome: document.getElementById('nome').value,
+      crm: document.getElementById('crm').value,
+      especialidade: document.getElementById('especialidade').value,
+      email: document.getElementById('email').value,
+      senha: document.getElementById('password').value,
+    };
+    apiCadastro.cadastrar(req);
+    onNavigateToLogin();
+  }
 
   return (
     <div className="cadastro-card-container">
@@ -86,7 +98,7 @@ const Cadastro = ({ onNavigateToLogin }) => {
             </div>
           </div>
 
-          <button type="submit" className="submit-btn cadastro-submit-btn">
+          <button type="submit" className="submit-btn cadastro-submit-btn" onClick={handleCadastro}>
             <MdPersonAdd className="btn-icon" />
             Criar Conta
           </button>

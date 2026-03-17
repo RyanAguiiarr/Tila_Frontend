@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MdVisibility, MdVisibilityOff, MdLock } from 'react-icons/md';
 import SecurityBadges from '../../components/SecurityBadges/SecurityBadges';
 import './Login.css';
+import { apiLogin } from '../../api/login/apiLogin';
 
 const Login = ({ onNavigateToCadastro }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,6 +15,14 @@ const Login = ({ onNavigateToCadastro }) => {
     e.preventDefault();
     // Handling form submit behavior is outside the scope of this visual task
   };
+
+  const handlelogin = () => {
+    const req = {
+      email: document.getElementById('email').value,
+      senha: document.getElementById('password').value,
+    };
+    apiLogin.login(req);
+  }
 
   return (
     <div className="login-card-container">
@@ -65,7 +74,7 @@ const Login = ({ onNavigateToCadastro }) => {
             </label>
           </div>
 
-          <button type="submit" className="submit-btn">
+          <button type="submit" className="submit-btn" onClick={handlelogin}>
             <MdLock className="btn-icon" />
             Login Seguro
           </button>
