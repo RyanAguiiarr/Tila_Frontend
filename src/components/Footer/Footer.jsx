@@ -4,7 +4,7 @@ import './Footer.css';
 const Footer = () => {
   return (
     <footer className="footer">
-      <p>© 2024 Tila Medical Solutions. Todos os direitos reservados.</p>
+      <p>© 2026 Tila. Todos os direitos reservados.</p>
       <div className="footer-links">
         <a href="#privacidade">Política de Privacidade</a>
         <span className="separator">|</span>

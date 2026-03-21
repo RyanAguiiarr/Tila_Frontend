@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   MdDashboard, 
   MdPeople, 
@@ -18,7 +19,8 @@ import {
 } from 'react-icons/md';
 import './Dashboard.css';
 
-const Dashboard = ({ onNavigate }) => {
+const Dashboard = () => {
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
@@ -50,7 +52,7 @@ const Dashboard = ({ onNavigate }) => {
               <MdDashboard className="nav-icon" />
               <span>Painel</span>
             </li>
-            <li className="nav-item" onClick={() => onNavigate && onNavigate('pacientes')}>
+            <li className="nav-item" onClick={() => navigate('/pacientes')}>
               <MdPeople className="nav-icon" />
               <span>Pacientes</span>
             </li>

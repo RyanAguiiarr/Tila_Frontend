@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MdVisibility, MdVisibilityOff, MdPersonAdd } from 'react-icons/md';
 import SecurityBadges from '../../components/SecurityBadges/SecurityBadges';
 import './Cadastro.css';
-import { apiCadastro } from '../../api/cadastro/apiCadastro';
+import { apiCadastro } from '../../api/cadastro/apiCadastro'
 
-const Cadastro = ({ onNavigateToLogin }) => {
+const Cadastro = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -14,7 +16,7 @@ const Cadastro = ({ onNavigateToLogin }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-  
+
   const handleCadastro = () => {
     const req = {
       nome: document.getElementById('nome').value,
@@ -24,7 +26,7 @@ const Cadastro = ({ onNavigateToLogin }) => {
       senha: document.getElementById('password').value,
     };
     apiCadastro.cadastrar(req);
-    onNavigateToLogin();
+    navigate('/login');
   }
 
   return (
@@ -102,10 +104,10 @@ const Cadastro = ({ onNavigateToLogin }) => {
             <MdPersonAdd className="btn-icon" />
             Criar Conta
           </button>
-          
+
           <div className="auth-switch-container">
             <span className="auth-switch-text">Já possui uma conta?</span>
-            <button type="button" onClick={onNavigateToLogin} className="auth-switch-btn">
+            <button type="button" onClick={() => navigate('/login')} className="auth-switch-btn">
               Faça login
             </button>
           </div>

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MdVisibility, MdVisibilityOff, MdLock } from 'react-icons/md';
 import SecurityBadges from '../../components/SecurityBadges/SecurityBadges';
 import './Login.css';
 import { apiLogin } from '../../api/login/apiLogin';
 
-const Login = ({ onNavigateToCadastro }) => {
+const Login = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -13,7 +15,6 @@ const Login = ({ onNavigateToCadastro }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handling form submit behavior is outside the scope of this visual task
   };
 
   const handlelogin = () => {
@@ -22,6 +23,7 @@ const Login = ({ onNavigateToCadastro }) => {
       senha: document.getElementById('password').value,
     };
     apiLogin.login(req);
+    navigate('/dashboard');
   }
 
   return (
@@ -81,10 +83,10 @@ const Login = ({ onNavigateToCadastro }) => {
 
           <div className="auth-switch-container" style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginTop: '1rem', fontSize: '0.875rem' }}>
             <span className="auth-switch-text" style={{ color: 'var(--text-gray)' }}>Não possui uma conta?</span>
-            <button 
-              type="button" 
-              onClick={onNavigateToCadastro} 
-              className="auth-switch-btn" 
+            <button
+              type="button"
+              onClick={() => navigate('/cadastro')}
+              className="auth-switch-btn"
               style={{ background: 'none', border: 'none', color: 'var(--primary-blue)', fontWeight: 600, cursor: 'pointer', padding: 0 }}
             >
               Cadastre-se
