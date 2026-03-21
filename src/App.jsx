@@ -6,6 +6,7 @@ import Login from './pages/Login/Login';
 import Cadastro from './pages/Cadastro/Cadastro';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Pacientes from './pages/Pacientes/Pacientes';
+import CadastroPaciente from './pages/CadastroPaciente/CadastroPaciente';
 import './App.css';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/pacientes" element={<Pacientes />} />
+          <Route path="/pacientes/novo" element={<CadastroPaciente />} />
         </Routes>
       </main>
       {!isInternalScreen && <Footer />}

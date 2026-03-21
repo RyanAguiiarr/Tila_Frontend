@@ -61,10 +61,6 @@ const Dashboard = () => {
               <span>Laudos</span>
             </li>
             <li className="nav-item">
-              <MdAutoGraph className="nav-icon" />
-              <span>Insights de IA</span>
-            </li>
-            <li className="nav-item">
               <MdCalendarToday className="nav-icon" />
               <span>Agenda</span>
             </li>

@@ -17,13 +17,19 @@ const Login = () => {
     e.preventDefault();
   };
 
-  const handlelogin = () => {
+  const handlelogin = async () => {
     const req = {
       email: document.getElementById('email').value,
       senha: document.getElementById('password').value,
     };
-    apiLogin.login(req);
-    navigate('/dashboard');
+
+    try {
+      const response = await apiLogin.login(req);
+      console.log(response);
+      navigate('/dashboard');
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
