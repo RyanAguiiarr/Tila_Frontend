@@ -134,18 +134,6 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Card 2 */}
-            <div className="summary-card">
-              <div className="card-header">
-                <span className="card-title">Eficiência Média da IA</span>
-                <MdAutoGraph className="card-icon blue-icon" />
-              </div>
-              <div className="card-body">
-                <span className="card-value">94.2%</span>
-                <span className="card-trend positive">+3%~</span>
-              </div>
-            </div>
-
             {/* Card 3 */}
             <div className="summary-card">
               <div className="card-header">
@@ -186,7 +174,6 @@ const Dashboard = () => {
                       <tr>
                         <th>PACIENTE</th>
                         <th>TIPO DE EXAME</th>
-                        <th>STATUS</th>
                         <th>CONFIANÇA DA IA</th>
                         <th>AÇÕES</th>
                       </tr>
@@ -200,7 +187,6 @@ const Dashboard = () => {
                           </div>
                         </td>
                         <td>Raio-X de Tórax (PA)</td>
-                        <td><span className="status-badge critical">CRÍTICO</span></td>
                         <td>
                           <div className="confidence-wrapper">
                             <div className="confidence-bar"><div className="confidence-fill green" style={{width: '92%'}}></div></div>
@@ -217,7 +203,6 @@ const Dashboard = () => {
                           </div>
                         </td>
                         <td>RM de Crânio c/ Contraste</td>
-                        <td><span className="status-badge moderate">MODERADO</span></td>
                         <td>
                           <div className="confidence-wrapper">
                             <div className="confidence-bar"><div className="confidence-fill orange" style={{width: '78%'}}></div></div>
@@ -234,7 +219,6 @@ const Dashboard = () => {
                           </div>
                         </td>
                         <td>TC de Abdome/Pelve</td>
-                        <td><span className="status-badge routine">ROTINA</span></td>
                         <td>
                           <div className="confidence-wrapper">
                             <div className="confidence-bar"><div className="confidence-fill green" style={{width: '96%'}}></div></div>

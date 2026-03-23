@@ -110,7 +110,7 @@ const closePopupAndNavigate = () => {
           <ul className="nav-list">
             <li className="nav-item" onClick={() => navigate('/dashboard')}>
               <MdDashboard className="nav-icon" />
-              <span>Dashboard</span>
+              <span>Painel</span>
             </li>
             <li className="nav-item active" onClick={() => navigate('/pacientes')}>
               <MdPeople className="nav-icon" />
@@ -118,39 +118,25 @@ const closePopupAndNavigate = () => {
             </li>
             <li className="nav-item">
               <MdDescription className="nav-icon" />
-              <span>Exames</span>
+              <span>Laudos</span>
             </li>
             <li className="nav-item">
               <MdCalendarToday className="nav-icon" />
-              <span>Relatórios</span>
-            </li>
-            
-            <li className="nav-category">SISTEMA</li>
-            
-            <li className="nav-item">
-              <MdSettings className="nav-icon" />
-              <span>Configurações</span>
-            </li>
-            <li className="nav-item logout" onClick={() => navigate('/login')}>
-              <span className="nav-icon" style={{ transform: 'rotate(180deg)', display: 'inline-block', color: '#ff4d4f'}}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-              </span>
-              <span style={{color: '#ff4d4f'}}>Sair</span>
+              <span>Agenda</span>
             </li>
           </ul>
         </nav>
         
         <div className="sidebar-footer">
-          <div className="user-profile bg-gray-light">
-            <div className="user-avatar">
-              <img src="https://ui-avatars.com/api/?name=Ricardo+Silva&background=2C3E50&color=fff" alt="Dr. Ricardo Silva" />
-            </div>
-            <div className="user-info">
-              <span className="user-name">Dr. Ricardo Silva</span>
-              <span className="user-role">CRM/SP 123456</span>
-            </div>
-          </div>
-        </div>
+                  <div className="nav-item settings-item"><MdSettings className="nav-icon" /><span>Configurações</span></div>
+                  <div className="user-profile">
+                    <div className="user-avatar"><img src="https://ui-avatars.com/api/?name=Julian+Smith&background=0D8ABC&color=fff" alt="Dr. Julian Smith" /></div>
+                    <div className="user-info">
+                      <span className="user-name">Dr. Julian Smith</span>
+                      <span className="user-role">Cardiologista</span>
+                    </div>
+                  </div>
+                </div>
       </aside>
 
       {/* Main Content Area */}
