@@ -5,6 +5,7 @@ interface paciente {
     cpf: string;
     dataNascimento: Date;
     telefone: string;
+    exames: Object[];
 }
 
 const api = axios.create({
@@ -18,7 +19,6 @@ const api = axios.create({
 export const buscarTodosPacientes = async () => {
     try {
         const response = await api.get('/paciente');
-        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Erro ao buscar pacientes:', error);

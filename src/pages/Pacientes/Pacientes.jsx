@@ -15,6 +15,7 @@ import {
 import './Pacientes.css';
 import { buscarTodosPacientes } from '../../api/paciente/apiPaciente';
 import { useEffect } from 'react';
+import { useAuthStore } from '../../store/useAuthStore';
 
 const Pacientes = () => {
   const navigate = useNavigate();
@@ -28,6 +29,8 @@ const Pacientes = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentPacientes = pacientes.slice(indexOfFirstItem, indexOfLastItem);
+
+  const user = useAuthStore((state) => state.user);
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
@@ -83,6 +86,14 @@ const Pacientes = () => {
     catch (e) { console.error('Erro ao buscar pacientes:', e); }
   };
 
+  const totalExames = () => {
+    let total = 0;
+    for (let i = 0; i < pacientes.length; i++) {
+      total += pacientes[i].exames.length;
+    }     
+    return total;
+  }
+
   useEffect(() => { buscarPacientes(); }, []);
 
   return (
@@ -117,8 +128,8 @@ const Pacientes = () => {
           <div className="user-profile">
             <div className="user-avatar"><img src="https://ui-avatars.com/api/?name=Julian+Smith&background=0D8ABC&color=fff" alt="Dr. Julian Smith" /></div>
             <div className="user-info">
-              <span className="user-name">Dr. Julian Smith</span>
-              <span className="user-role">Cardiologista</span>
+              <span className="user-name">{user?.nomeCompleto}</span>
+              <span className="user-role">{user?.especialidade}</span>
             </div>
           </div>
         </div>
@@ -161,11 +172,11 @@ const Pacientes = () => {
             </div>
             <div className="summary-card">
               <div className="card-header pt-0"><span className="card-title text-dark-gray">Exames Recentes</span></div>
-              <div className="card-body-pacientes"><span className="card-value">42</span><span className="card-subtext-light">Últimas 24 horas</span></div>
+              <div className="card-body-pacientes"><span className="card-value">{totalExames()}</span><span className="card-subtext-light">Últimas 24 horas</span></div>
             </div>
             <div className="summary-card">
               <div className="card-header pt-0"><span className="card-title text-dark-gray">Laudos Pendentes</span></div>
-              <div className="card-body-pacientes"><span className="card-value text-blue">12</span><span className="card-subtext-light text-blue">Atribuídos a você</span></div>
+              <div className="card-body-pacientes"><span className="card-value text-blue">0</span><span className="card-subtext-light text-blue">Atribuídos a você</span></div>
             </div>
           </div>
 

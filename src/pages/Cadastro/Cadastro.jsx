@@ -4,6 +4,7 @@ import { MdVisibility, MdVisibilityOff, MdPersonAdd } from 'react-icons/md';
 import SecurityBadges from '../../components/SecurityBadges/SecurityBadges';
 import './Cadastro.css';
 import { apiCadastro } from '../../api/cadastro/apiCadastro'
+import { useAuthStore } from '../../store/useAuthStore';
 
 const Cadastro = () => {
   const navigate = useNavigate();

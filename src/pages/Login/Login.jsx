@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { MdVisibility, MdVisibilityOff, MdLock } from 'react-icons/md';
 import SecurityBadges from '../../components/SecurityBadges/SecurityBadges';
 import './Login.css';
 import { apiLogin } from '../../api/login/apiLogin';
+import { useAuthStore } from '../../store/useAuthStore';
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
+  const [warningMessage, setWarningMessage] = useState('');
+
+  useEffect(() => {
+    if (location.state && location.state.message) {
+      setWarningMessage(location.state.message);
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -25,7 +35,7 @@ const Login = () => {
 
     try {
       const response = await apiLogin.login(req);
-      console.log(response);
+      const profile = await useAuthStore.getState().fetchProfile();
       navigate('/dashboard');
     } catch (error) {
       console.log(error);
@@ -39,6 +49,12 @@ const Login = () => {
           <h1>Login Seguro</h1>
           <p>Acesse seu painel médico profissional e prontuários de pacientes.</p>
         </div>
+
+        {warningMessage && (
+          <div className="login-warning-message">
+            {warningMessage}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">

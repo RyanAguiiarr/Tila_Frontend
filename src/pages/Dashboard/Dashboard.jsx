@@ -18,10 +18,12 @@ import {
   MdClose
 } from 'react-icons/md';
 import './Dashboard.css';
+import { useAuthStore } from '../../store/useAuthStore';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const user = useAuthStore((state) => state.user);
 
   return (
     <div className="dashboard-container">
@@ -77,8 +79,8 @@ const Dashboard = () => {
               <img src="https://ui-avatars.com/api/?name=Julian+Smith&background=0D8ABC&color=fff" alt="Dr. Julian Smith" />
             </div>
             <div className="user-info">
-              <span className="user-name">Dr. Julian Smith</span>
-              <span className="user-role">Radiologista</span>
+              <span className="user-name">{user?.nomeCompleto}</span>
+              <span className="user-role">{user?.especialidade}</span>
             </div>
           </div>
         </div>
@@ -117,7 +119,7 @@ const Dashboard = () => {
         <main className="dashboard-content">
           <div className="page-title">
             <h1>Painel do Médico</h1>
-            <p>Bem-vindo de volta, Dr. Smith. Aqui está sua visão geral de hoje, 24 de Out.</p>
+            <p>Bem-vindo de volta, Dr. Smith. Aqui está sua visão geral de hoje, {new Date().toLocaleDateString()}.</p>
           </div>
           
           {/* Summary Cards */}

@@ -13,8 +13,10 @@ import {
 } from 'react-icons/md';
 import './CadastroPaciente.css';
 import { cadastrarPaciente } from '../../api/cadastroPaciente/apiCadastropaciente';
+import { useAuthStore } from '../../store/useAuthStore';
 
 const CadastroPaciente = () => {
+  const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -132,8 +134,8 @@ const closePopupAndNavigate = () => {
                   <div className="user-profile">
                     <div className="user-avatar"><img src="https://ui-avatars.com/api/?name=Julian+Smith&background=0D8ABC&color=fff" alt="Dr. Julian Smith" /></div>
                     <div className="user-info">
-                      <span className="user-name">Dr. Julian Smith</span>
-                      <span className="user-role">Cardiologista</span>
+                      <span className="user-name">{user?.nomeCompleto}</span>
+                      <span className="user-role">{user?.especialidade}</span>
                     </div>
                   </div>
                 </div>
