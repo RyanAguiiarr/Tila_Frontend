@@ -25,3 +25,13 @@ export const buscarTodosPacientes = async () => {
         throw error;
     }
 };
+
+export const buscarPacientePorId = async (id: string) => {
+    try {
+        const response = await api.get(`/paciente/${id}`);
+        return response;
+    } catch (error) {
+        console.error('Erro ao buscar paciente:', error);
+        throw error;
+    }
+};

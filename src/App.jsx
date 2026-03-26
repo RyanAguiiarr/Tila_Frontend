@@ -32,12 +32,12 @@ function App() {
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
-          
+
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/pacientes" element={<Pacientes />} />
             <Route path="/pacientes/novo" element={<CadastroPaciente />} />
-            <Route path="/prontuario" element={<Prontuario />} />
+            <Route path="/pacientes/:id" element={<Prontuario />} />
           </Route>
         </Routes>
       </main>

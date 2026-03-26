@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { 
-  MdDashboard, 
-  MdPeople, 
-  MdDescription, 
-  MdCalendarToday, 
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  MdDashboard,
+  MdPeople,
+  MdDescription,
+  MdCalendarToday,
   MdSettings,
   MdSearch,
   MdNotifications,
@@ -18,14 +18,49 @@ import {
 } from 'react-icons/md';
 import './Prontuario.css';
 import { useAuthStore } from '../../store/useAuthStore';
+import { buscarPacientePorId } from '../../api/paciente/apiPaciente';
 
 const Prontuario = () => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('resumo');
+  const [paciente, setPaciente] = useState(null);
 
   // We keep auth usage minimal since its just visual
   const user = useAuthStore((state) => state.user);
+
+  const id = useParams().id;
+
+  const buscarPaciente = async (pacienteId) => {
+    try {
+      const response = await buscarPacientePorId(pacienteId);
+      console.log("Paciente encontrado:", response);
+      setPaciente(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar paciente:', error);
+    }
+  }
+
+  const calcularIdade = (data) => {
+    if (!data) return '--';
+    let d;
+    if (Array.isArray(data)) d = new Date(data[0], data[1] - 1, data[2]);
+    else if (typeof data === 'string' && data.includes('-')) d = new Date(data.split('T')[0]);
+    else if (typeof data === 'string' && data.includes('/')) d = new Date(data.split('/').reverse().join('-'));
+    else d = new Date(data);
+
+    if (isNaN(d.getTime())) return '--';
+    const hj = new Date();
+    let id = hj.getFullYear() - d.getFullYear();
+    if (hj.getMonth() < d.getMonth() || (hj.getMonth() === d.getMonth() && hj.getDate() < d.getDate())) id--;
+    return id;
+  };
+
+  useEffect(() => {
+    if (id) {
+      buscarPaciente(id);
+    }
+  }, [id]);
 
   return (
     <div className="dashboard-container">
@@ -47,7 +82,7 @@ const Prontuario = () => {
             </div>
           </div>
         </div>
-        
+
         <nav className="sidebar-nav">
           <ul className="nav-list">
             <li className="nav-item" onClick={() => navigate('/dashboard')}><MdDashboard className="nav-icon" /><span>Dashboard</span></li>
@@ -56,10 +91,10 @@ const Prontuario = () => {
             <li className="nav-item hoverable"><MdDescription className="nav-icon" /><span>Laudos</span></li>
           </ul>
         </nav>
-        
+
         <div className="sidebar-footer">
           <div className="nav-item settings-item hoverable"><MdSettings className="nav-icon" /><span>Configurações</span></div>
-          <div className="nav-item logout-item text-red hoverable"><svg viewBox="0 0 24 24" width="24" height="24" className="nav-icon"><path fill="currentColor" d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg><span>Sair</span></div>
+          <div className="nav-item logout-item text-red hoverable"><svg viewBox="0 0 24 24" width="24" height="24" className="nav-icon"><path fill="currentColor" d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" /></svg><span>Sair</span></div>
         </div>
       </aside>
 
@@ -79,47 +114,47 @@ const Prontuario = () => {
           <div className="header-actions">
             <div className="notification-bell action-btn-top"><MdNotifications className="bell-icon text-gray-dark" /></div>
             <div className="user-profile-top action-btn-top rounded-full bg-light-gray flex-center">
-              <svg viewBox="0 0 24 24" width="20" height="20" className="text-gray-dark"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+              <svg viewBox="0 0 24 24" width="20" height="20" className="text-gray-dark"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" /></svg>
             </div>
             <div className="user-avatar-top overflow-hidden rounded-full width-36">
-              <img src="https://images.unsplash.com/photo-1612349317150-e410f624c4a4?ixlib=rb-1.2.1&auto=format&fit=crop&w=128&q=80" alt="Doctor" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+              <img src="https://images.unsplash.com/photo-1612349317150-e410f624c4a4?ixlib=rb-1.2.1&auto=format&fit=crop&w=128&q=80" alt="Doctor" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
           </div>
         </header>
 
         {/* Prontuario Content */}
         <main className="dashboard-content prontuario-container pt-lg">
-          
+
           {/* Patient Header Card */}
           <div className="card patient-header-card shadow-sm border-radius-lg mb-lg">
             <div className="patient-header-content p-lg flex-row space-between align-center">
-              
+
               <div className="patient-info-left flex-row align-center gap-lg">
                 <div className="patient-avatar-large shadow-sm">
                   <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80" alt="Sarah Jenkins" />
                 </div>
-                
+
                 <div className="patient-info-main flex-col gap-xs">
                   <div className="patient-name-row flex-row align-center gap-sm mb-xs">
-                    <h1 className="patient-name m-0 text-xl font-bold">Sarah Jenkins</h1>
+                    <h1 className="patient-name m-0 text-xl font-bold">{paciente?.nomeCompleto}</h1>
                     <span className="status-pill status-estavel">ESTÁVEL</span>
                   </div>
-                  
+
                   <div className="patient-details-row flex-row align-center gap-xs text-gray text-sm font-medium mb-xs">
-                    <span className="detail-item">ID: #882931</span>
+                    <span className="detail-item">ID: #{paciente?.id}</span>
                     <span className="detail-dot font-black">•</span>
-                    <span className="detail-item">28 anos</span>
+                    <span className="detail-item">{calcularIdade(paciente?.dataNascimento)} anos</span>
                     <span className="detail-dot font-black">•</span>
-                    <span className="detail-item">Feminino</span>
+                    <span className="detail-item">GENERICO</span>
                   </div>
-                  
+
                   <div className="patient-update-row flex-row align-center gap-xs text-light-gray text-xs font-medium">
                     <MdHistory className="update-icon" />
                     <span className="update-text">Última atualização: 12 Out 2023 às 14:30</span>
                   </div>
                 </div>
               </div>
-              
+
               <div className="patient-actions flex-row gap-sm">
                 <button className="btn-outline-gray btn-with-icon font-bold text-sm">
                   <MdEdit className="icon-sm" />
@@ -144,10 +179,10 @@ const Prontuario = () => {
           {/* Resumo Tab Content */}
           {activeTab === 'resumo' && (
             <div className="prontuario-grid">
-              
+
               {/* Left Column */}
               <div className="grid-left-col flex-col gap-lg">
-                
+
                 {/* Resumo do Paciente Card */}
                 <div className="card shadow-sm border-radius-lg bg-white">
                   <div className="card-header pb-0 border-none pt-lg px-lg">
@@ -199,60 +234,59 @@ const Prontuario = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td className="py-md border-bottom-light">
-                              <div className="exam-type-row flex-row align-center gap-md">
-                                <div className="exam-icon-box bg-light-blue text-blue flex-center rounded width-32 height-32">
-                                  <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                                </div>
-                                <span className="font-bold text-dark text-sm line-height-tight">Resonância Magnética<br/><span className="text-normal text-gray">(Crânio)</span></span>
-                              </div>
-                            </td>
-                            <td className="py-md border-bottom-light text-gray text-sm line-height-tight">10 Out<br/>2023</td>
-                            <td className="py-md border-bottom-light"><span className="status-pill-bg text-blue bg-light-blue text-xs font-bold rounded-full px-sm py-xs">Concluído</span></td>
-                            <td className="py-md border-bottom-light text-right">
-                              <button className="action-btn text-blue font-bold flex-row align-center justify-end w-100 gap-xs bg-transparent border-none cursor-pointer p-0 text-sm">
-                                <MdVisibility className="text-md" />
-                                Visualizar
-                              </button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="py-md border-bottom-light">
-                              <div className="exam-type-row flex-row align-center gap-md">
-                                <div className="exam-icon-box bg-light-blue text-blue flex-center rounded width-32 height-32">
-                                  <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2c-5.33 4.55-8 8.48-8 11.8 0 4.98 3.8 8.2 8 8.2s8-3.22 8-8.2c0-3.32-2.67-7.25-8-11.8zm0 13c-2.76 0-5-2.24-5-5s5-9 5-9 5 6.24 5 9-2.24 5-5 5z"/></svg>
-                                </div>
-                                <span className="font-bold text-dark text-sm">Hemograma Completo</span>
-                              </div>
-                            </td>
-                            <td className="py-md border-bottom-light text-gray text-sm line-height-tight">05 Set<br/>2023</td>
-                            <td className="py-md border-bottom-light"><span className="status-pill-bg text-yellow-dark bg-light-yellow text-xs font-bold rounded-full px-sm py-xs">Em análise</span></td>
-                            <td className="py-md border-bottom-light text-right">
-                              <button className="action-btn text-light-gray font-bold flex-row align-center justify-end w-100 gap-xs bg-transparent border-none cursor-default p-0 text-sm">
-                                <MdVisibilityOff className="text-md" />
-                                Indisponível
-                              </button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="py-md border-bottom-none">
-                              <div className="exam-type-row flex-row align-center gap-md">
-                                <div className="exam-icon-box bg-light-blue text-blue flex-center rounded width-32 height-32">
-                                  <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M22 6h-2.4l-1.4-2.8c-.3-.6-.9-1-1.6-1H7.4c-.7 0-1.3.4-1.6 1L4.4 6H2c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM12 19c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6z"/><path fill="currentColor" d="M12 9c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"/></svg>
-                                </div>
-                                <span className="font-bold text-dark text-sm">Eletrocardiograma</span>
-                              </div>
-                            </td>
-                            <td className="py-md border-bottom-none text-gray text-sm line-height-tight">22 Ago<br/>2023</td>
-                            <td className="py-md border-bottom-none"><span className="status-pill-bg text-blue bg-light-blue text-xs font-bold rounded-full px-sm py-xs">Concluído</span></td>
-                            <td className="py-md border-bottom-none text-right">
-                              <button className="action-btn text-blue font-bold flex-row align-center justify-end w-100 gap-xs bg-transparent border-none cursor-pointer p-0 text-sm">
-                                <MdVisibility className="text-md" />
-                                Visualizar
-                              </button>
-                            </td>
-                          </tr>
+                          {(() => {
+                            const lista = paciente?.laudos || paciente?.exames || [];
+                            if (lista.length === 0) {
+                              return (
+                                <tr>
+                                  <td colSpan="4" className="py-md text-center text-gray border-bottom-none">
+                                    Nenhum laudo encontrado para este paciente.
+                                  </td>
+                                </tr>
+                              );
+                            }
+                            return lista.map((item, index) => {
+                              const isLast = index === lista.length - 1;
+                              const borderClass = isLast ? 'border-bottom-none' : 'border-bottom-light';
+                              const status = item.status || "Concluído";
+                              const isConcluido = status.toLowerCase() === 'concluído';
+                              
+                              let dataFormatada = item.dataExame || item.data || item.dataCriacao || "N/D";
+                              if (Array.isArray(dataFormatada)) {
+                                dataFormatada = `${String(dataFormatada[2]).padStart(2, '0')}/${String(dataFormatada[1]).padStart(2, '0')}/${dataFormatada[0]}`;
+                              } else if (typeof dataFormatada === 'string' && dataFormatada.includes('T')) {
+                                const d = new Date(dataFormatada);
+                                if (!isNaN(d.getTime())) {
+                                  dataFormatada = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+                                }
+                              }
+                              
+                              return (
+                                <tr key={item.id || index}>
+                                  <td className={`py-md ${borderClass}`}>
+                                    <div className="exam-type-row flex-row align-center gap-md">
+                                      <div className="exam-icon-box bg-light-blue text-blue flex-center rounded width-32 height-32">
+                                        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" /></svg>
+                                      </div>
+                                      <span className="font-bold text-dark text-sm line-height-tight">{item.tipoExame || item.exame || item.nome || item.titulo || "Exame"}</span>
+                                    </div>
+                                  </td>
+                                  <td className={`py-md ${borderClass} text-gray text-sm line-height-tight`}>{dataFormatada}</td>
+                                  <td className={`py-md ${borderClass}`}>
+                                    <span className={`status-pill-bg text-xs font-bold rounded-full px-sm py-xs ${isConcluido ? 'text-blue bg-light-blue' : 'text-yellow-dark bg-light-yellow'}`}>
+                                      {status}
+                                    </span>
+                                  </td>
+                                  <td className={`py-md ${borderClass} text-right`}>
+                                    <button className={`action-btn font-bold flex-row align-center justify-end w-100 gap-xs bg-transparent border-none p-0 text-sm ${isConcluido ? 'text-blue cursor-pointer' : 'text-light-gray cursor-default'}`}>
+                                      {isConcluido ? <MdVisibility className="text-md" /> : <MdVisibilityOff className="text-md" />}
+                                      {isConcluido ? "Visualizar" : "Indisponível"}
+                                    </button>
+                                  </td>
+                                </tr>
+                              );
+                            });
+                          })()}
                         </tbody>
                       </table>
                     </div>
@@ -262,7 +296,7 @@ const Prontuario = () => {
 
               {/* Right Column */}
               <div className="grid-right-col flex-col gap-lg">
-                
+
                 {/* Notas Clínicas Card */}
                 <div className="card shadow-sm border-radius-lg bg-white h-full-stretch">
                   <div className="card-header border-none pt-lg px-lg pb-md">
@@ -273,7 +307,7 @@ const Prontuario = () => {
                   </div>
                   <div className="card-content px-lg pb-lg pt-0 flex-col space-between h-minus-header">
                     <div className="timeline-wrapper mb-lg">
-                      
+
                       {/* Timeline Item 1 */}
                       <div className="timeline-item flex-row gap-md position-relative">
                         <div className="timeline-line"></div>
@@ -289,7 +323,7 @@ const Prontuario = () => {
                           <span className="timeline-author text-xs text-light-gray italic">Por: Dra. Ana Costa</span>
                         </div>
                       </div>
-                      
+
                       {/* Timeline Item 2 */}
                       <div className="timeline-item flex-row gap-md position-relative">
                         <div className="timeline-dot-container mt-sm z-index-1">
@@ -305,7 +339,7 @@ const Prontuario = () => {
                       </div>
 
                     </div>
-                    
+
                     <button className="btn-outline-full w-100 py-sm rounded border-light text-dark font-bold bg-transparent cursor-pointer hover-bg-light transition-all">Adicionar Nota</button>
                   </div>
                 </div>
@@ -342,7 +376,7 @@ const Prontuario = () => {
               </div>
             </div>
           )}
-          
+
         </main>
       </div>
     </div>

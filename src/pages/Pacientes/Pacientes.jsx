@@ -212,7 +212,7 @@ const Pacientes = () => {
                         </div>
                       </td>
                       <td className="actions-col">
-                        <button className="btn-outline" onClick={() => navigate("/prontuario")}>Ver Prontuário</button>
+                        <button className="btn-outline" onClick={() => navigate(`/pacientes/${paciente.id}`)}>Ver Prontuário</button>
                         <button className="btn-solid-blue">Iniciar Laudo</button>
                       </td>
                     </tr>
