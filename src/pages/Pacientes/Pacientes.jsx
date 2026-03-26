@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  MdDashboard, 
-  MdPeople, 
-  MdDescription, 
-  MdCalendarToday, 
+import {
+  MdDashboard,
+  MdPeople,
+  MdDescription,
+  MdCalendarToday,
   MdSettings,
   MdSearch,
   MdNotifications,
@@ -62,7 +62,7 @@ const Pacientes = () => {
     else if (typeof data === 'string' && data.includes('-')) d = new Date(data.split('T')[0]);
     else if (typeof data === 'string' && data.includes('/')) d = new Date(data.split('/').reverse().join('-'));
     else d = new Date(data);
-    
+
     if (isNaN(d.getTime())) return '--';
     const hj = new Date();
     let id = hj.getFullYear() - d.getFullYear();
@@ -82,7 +82,7 @@ const Pacientes = () => {
   };
 
   const buscarPacientes = async () => {
-    try { setPacientes(await buscarTodosPacientes()); } 
+    try { setPacientes(await buscarTodosPacientes()); }
     catch (e) { console.error('Erro ao buscar pacientes:', e); }
   };
 
@@ -90,7 +90,7 @@ const Pacientes = () => {
     let total = 0;
     for (let i = 0; i < pacientes.length; i++) {
       total += pacientes[i].exames.length;
-    }     
+    }
     return total;
   }
 
@@ -113,7 +113,7 @@ const Pacientes = () => {
             <span className="logo-text">Tila Medical</span>
           </div>
         </div>
-        
+
         <nav className="sidebar-nav">
           <ul className="nav-list">
             <li className="nav-item" onClick={() => navigate('/dashboard')}><MdDashboard className="nav-icon" /><span>Painel</span></li>
@@ -122,7 +122,7 @@ const Pacientes = () => {
             <li className="nav-item"><MdCalendarToday className="nav-icon" /><span>Agenda</span></li>
           </ul>
         </nav>
-        
+
         <div className="sidebar-footer">
           <div className="nav-item settings-item"><MdSettings className="nav-icon" /><span>Configurações</span></div>
           <div className="user-profile">
@@ -163,7 +163,7 @@ const Pacientes = () => {
             <h1>Prontuários de Pacientes</h1>
             <p>Gerencie, acompanhe e inicie laudos clínicos para todos os pacientes registrados.</p>
           </div>
-          
+
           {/* Summary Cards */}
           <div className="summary-cards">
             <div className="summary-card">
@@ -212,21 +212,21 @@ const Pacientes = () => {
                         </div>
                       </td>
                       <td className="actions-col">
-                        <button className="btn-outline">Ver Prontuário</button>
+                        <button className="btn-outline" onClick={() => navigate("/prontuario")}>Ver Prontuário</button>
                         <button className="btn-solid-blue">Iniciar Laudo</button>
                       </td>
                     </tr>
                   ))}
                   {pacientes.length === 0 && (
                     <tr>
-                      <td colSpan="5" className="text-center text-gray" style={{padding: '3rem'}}>
+                      <td colSpan="5" className="text-center text-gray" style={{ padding: '3rem' }}>
                         Nenhum paciente cadastrado.
                       </td>
                     </tr>
                   )}
                 </tbody>
               </table>
-              
+
               {/* Pagination */}
               {pacientes.length > 0 && (
                 <div className="pagination-wrapper">
@@ -234,19 +234,19 @@ const Pacientes = () => {
                     Exibindo {indexOfFirstItem + 1} a {Math.min(indexOfLastItem, pacientes.length)} de {pacientes.length} resultados
                   </span>
                   <div className="pagination-controls">
-                    <button 
-                      className="page-btn" 
+                    <button
+                      className="page-btn"
                       onClick={() => handlePageChange(currentPage - 1)}
                       disabled={currentPage === 1}
                     >
                       <MdKeyboardArrowLeft />
                     </button>
-                    
+
                     {getPageNumbers().map((num, i) => (
                       num === '...' ? (
                         <span key={`dots-${i}`} className="page-dots">...</span>
                       ) : (
-                        <button 
+                        <button
                           key={`page-${num}`}
                           className={`page-btn ${currentPage === num ? 'active' : ''}`}
                           onClick={() => handlePageChange(num)}
@@ -255,9 +255,9 @@ const Pacientes = () => {
                         </button>
                       )
                     ))}
-                    
-                    <button 
-                      className="page-btn" 
+
+                    <button
+                      className="page-btn"
                       onClick={() => handlePageChange(currentPage + 1)}
                       disabled={currentPage === totalPages}
                     >

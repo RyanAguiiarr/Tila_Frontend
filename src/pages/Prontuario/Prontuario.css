@@ -1,0 +1,333 @@
+/* Prontuario.css */
+
+/* --- Container & Layout --- */
+.prontuario-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.prontuario-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .prontuario-grid {
+    flex-direction: row;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: flex-start;
+  }
+}
+
+/* --- Utilities --- */
+.flex-row { display: flex; flex-direction: row; }
+.flex-col { display: flex; flex-direction: column; }
+.space-between { justify-content: space-between; }
+.align-center { align-items: center; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.flex-shrink-0 { flex-shrink: 0; }
+
+.gap-xs { gap: 0.25rem; }
+.gap-sm { gap: 0.5rem; }
+.gap-md { gap: 1rem; }
+.gap-lg { gap: 1.5rem; }
+
+.m-0 { margin: 0; }
+.mb-xs { margin-bottom: 0.25rem; }
+.mb-sm { margin-bottom: 0.5rem; }
+.mb-md { margin-bottom: 1rem; }
+.mb-lg { margin-bottom: 1.5rem; }
+.mt-sm { margin-top: 0.5rem; }
+.mt-md { margin-top: 1rem; }
+.mr-xs { margin-right: 0.25rem; }
+.mr-sm { margin-right: 0.5rem; }
+
+.p-0 { padding: 0 !important; }
+.p-sm { padding: 0.5rem; }
+.p-md { padding: 1rem; }
+.p-lg { padding: 1.5rem; }
+.px-sm { padding-left: 0.5rem; padding-right: 0.5rem; }
+.py-xs { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.py-sm { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.py-md { padding-top: 1rem; padding-bottom: 1rem; }
+.px-lg { padding-left: 1.5rem; padding-right: 1.5rem; }
+.pt-sm { padding-top: 0.5rem; }
+.pt-md { padding-top: 1rem; }
+.pt-lg { padding-top: 1.5rem; }
+.pb-0 { padding-bottom: 0 !important; }
+.pb-xs { padding-bottom: 0.25rem; }
+.pb-sm { padding-bottom: 0.5rem; }
+.pb-md { padding-bottom: 1rem; }
+.pb-lg { padding-bottom: 1.5rem; }
+.pr-md { padding-right: 1rem; }
+
+.w-100 { width: 100%; }
+.h-100 { height: 100%; }
+.h-full-stretch { height: 100%; display: flex; flex-direction: column; }
+.w-100-px { width: 100px; }
+.width-10 { width: 10px; height: 10px; }
+.width-32 { width: 32px; height: 32px; }
+.width-36 { width: 36px; height: 36px; }
+
+.position-relative { position: relative; }
+.z-index-1 { z-index: 1; }
+
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+
+/* Colors & Backgrounds */
+.bg-white { background-color: #ffffff; }
+.bg-light-gray-app { background-color: #f1f3f4; }
+.bg-light-gray { background-color: #e8eaed; }
+.bg-light-gray-solid { background-color: #dadce0; }
+.bg-light-blue { background-color: #e8f0fe !important; }
+.bg-light-yellow { background-color: #fef7e0 !important; }
+.bg-blue { background-color: #0b57d0 !important; }
+.bg-transparent { background-color: transparent; }
+
+.text-dark { color: #202124 !important; }
+.text-gray { color: #5f6368 !important; }
+.text-gray-dark { color: #3c4043 !important; }
+.text-light-gray { color: #80868b !important; }
+.text-blue { color: #0b57d0 !important; }
+.text-red { color: #d93025 !important; }
+.text-yellow-dark { color: #b06000 !important; }
+
+/* Typography */
+.font-bold { font-weight: 600; }
+.font-black { font-weight: 900; }
+.font-medium { font-weight: 500; }
+.font-normal { font-weight: 400; }
+.italic { font-style: italic; }
+.uppercase { text-transform: uppercase; }
+.ls-wide { letter-spacing: 0.05em; }
+
+.text-xl { font-size: 1.5rem; }
+.text-lg { font-size: 1.15rem; }
+.text-md { font-size: 1rem; }
+.text-sm { font-size: 0.85rem; }
+.text-xs { font-size: 0.75rem; }
+.text-xs-micro { font-size: 0.65rem; }
+
+.line-height-normal { line-height: 1.5; }
+.line-height-tight { line-height: 1.25; }
+
+/* Borders & Shadows */
+.border-radius-lg { border-radius: 12px; }
+.rounded { border-radius: 8px; }
+.rounded-full { border-radius: 50%; }
+
+.border-none { border: none !important; }
+.border-light { border: 1px solid #dadce0; }
+.border-bottom-light { border-bottom: 1px solid #dadce0; }
+.border-bottom-none { border-bottom: none !important; }
+.border-top-light { border-top: 1px solid #dadce0; }
+.border-white-thick { border: 2px solid white; box-sizing: content-box; }
+.border-dashed-blue { border: 1px dashed #aecbfa; }
+
+.shadow-sm { box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15); }
+.overflow-hidden { overflow: hidden; }
+
+/* Interactive & Cursor */
+.cursor-pointer { cursor: pointer; }
+.cursor-default { cursor: default; }
+.transition-all { transition: all 0.2s ease; }
+.hover-opacity:hover { opacity: 0.85; }
+.hover-bg-light:hover { background-color: #f1f3f4; }
+.hover-bg-light-blue:hover { background-color: #e8f0fe !important; }
+
+/* --- Specific Components --- */
+
+/* Patient Header */
+.patient-avatar-large {
+  width: 90px;
+  height: 90px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.patient-avatar-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.status-pill {
+  padding: 0.25rem 0.6rem;
+  border-radius: 16px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.status-estavel {
+  background-color: #e6f4ea;
+  color: #1e8e3e;
+}
+
+.btn-outline-gray {
+  background-color: white;
+  border: 1px solid #dadce0;
+  color: #3c4043;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-outline-gray:hover { background-color: #f1f3f4; }
+.btn-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.icon-sm { font-size: 1.1rem; }
+
+/* Tabs */
+.prontuario-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.prontuario-tabs::-webkit-scrollbar { display: none; }
+.tab-item {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 1rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #5f6368;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  margin-bottom: -1px; /* Overlap bottom border */
+}
+.tab-item:hover { color: #202124; }
+.tab-item.active {
+  color: #0b57d0;
+  border-bottom-color: #0b57d0;
+}
+
+/* Info Grid (Resumo do Paciente) */
+.info-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 640px) {
+  .info-grid-4 {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+/* History Table */
+.table-wrapper {
+  overflow-x: auto;
+}
+.history-table {
+  min-width: 500px;
+}
+.history-table th { border-bottom: 1px solid #dadce0; }
+.history-table td { vertical-align: middle; }
+
+/* Timeline Wrapper (Notas Clínicas) */
+.timeline-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.timeline-line {
+  position: absolute;
+  top: 15px; /* Offset to start below dot */
+  bottom: -15px; /* Offset to reach next dot roughly */
+  left: 6px;
+  width: 2px;
+  background-color: #dadce0;
+  z-index: 0;
+}
+.timeline-item:last-child .timeline-line {
+  display: none;
+}
+.timeline-dot-container {
+  width: 14px;
+  display: flex;
+  justify-content: center;
+}
+.active-dot { box-shadow: 0 0 0 4px #e8f0fe; }
+
+/* Images Grid */
+.images-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+.img-box {
+  aspect-ratio: 1 / 1;
+}
+.img-box-more {
+  background-color: #f8f9fa;
+  border: 1px dashed #aecbfa;
+}
+
+/* Overrides for sidebar and topbar specific to Prontuario if needed */
+.search-bar-prontuario {
+  background-color: #f1f3f4;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 300px;
+}
+.search-bar-prontuario input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+}
+.action-btn-top {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hoverable:hover {
+  background-color: #f1f3f4;
+  cursor: pointer;
+}
+.active-icon-blue {
+  color: #0b57d0 !important;
+}
+.active-text-blue {
+  color: #0b57d0 !important;
+}
+
+/* Responsividade Básica Stack */
+@media (max-width: 768px) {
+  .prontuario-container {
+    padding: 1rem;
+  }
+  .patient-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .patient-info-left {
+    flex-direction: row;
+    width: 100%;
+  }
+  .patient-actions {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  .patient-actions button {
+    flex: 1;
+    justify-content: center;
+  }
+}

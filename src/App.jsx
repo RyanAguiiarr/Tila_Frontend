@@ -7,6 +7,7 @@ import Cadastro from './pages/Cadastro/Cadastro';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Pacientes from './pages/Pacientes/Pacientes';
 import CadastroPaciente from './pages/CadastroPaciente/CadastroPaciente';
+import Prontuario from './pages/Prontuario/Prontuario';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './App.css';
 import { useAuthStore } from './store/useAuthStore';
@@ -15,7 +16,7 @@ import { useEffect } from 'react';
 function App() {
   const location = useLocation();
   const currentScreen = location.pathname.split('/')[1] || 'login';
-  const isInternalScreen = currentScreen === 'dashboard' || currentScreen === 'pacientes';
+  const isInternalScreen = currentScreen === 'dashboard' || currentScreen === 'pacientes' || currentScreen === 'prontuario';
 
   const fetchProfile = useAuthStore((state) => state.fetchProfile);
 
@@ -36,6 +37,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/pacientes" element={<Pacientes />} />
             <Route path="/pacientes/novo" element={<CadastroPaciente />} />
+            <Route path="/prontuario" element={<Prontuario />} />
           </Route>
         </Routes>
       </main>
