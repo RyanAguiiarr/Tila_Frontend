@@ -67,7 +67,7 @@ const Prontuario = () => {
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)}></div>}
 
-      {/* Sidebar - Similar to previous implementations */}
+      {/* Sidebar */}
       <aside className={`dashboard-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <div className="sidebar-logo">
@@ -76,25 +76,45 @@ const Prontuario = () => {
               <path d="M12 2L2 12l10 10V2z" fill="#0b57d0" />
               <path d="M12 2l10 10-10 10V2z" fill="#1a73e8" />
             </svg>
-            <div className="logo-text-wrapper">
-              <span className="logo-text">Tila Saúde</span>
-              <span className="portal-subtitle">PORTAL DO PROFISSIONAL</span>
-            </div>
+            <span className="logo-text">Tila Medical</span>
           </div>
         </div>
 
         <nav className="sidebar-nav">
           <ul className="nav-list">
-            <li className="nav-item" onClick={() => navigate('/dashboard')}><MdDashboard className="nav-icon" /><span>Dashboard</span></li>
-            <li className="nav-item active hoverable" onClick={() => navigate('/pacientes')}><MdPeople className="nav-icon active-icon-blue" /><span className="active-text-blue font-bold">Pacientes</span></li>
-            <li className="nav-item hoverable"><MdCalendarToday className="nav-icon" /><span>Agendamentos</span></li>
-            <li className="nav-item hoverable"><MdDescription className="nav-icon" /><span>Laudos</span></li>
+            <li className="nav-item" onClick={() => navigate('/dashboard')}>
+              <MdDashboard className="nav-icon" />
+              <span>Painel</span>
+            </li>
+            <li className="nav-item active" onClick={() => navigate('/pacientes')}>
+              <MdPeople className="nav-icon" />
+              <span>Pacientes</span>
+            </li>
+            <li className="nav-item">
+              <MdDescription className="nav-icon" />
+              <span>Laudos</span>
+            </li>
+            <li className="nav-item">
+              <MdCalendarToday className="nav-icon" />
+              <span>Agenda</span>
+            </li>
           </ul>
         </nav>
 
         <div className="sidebar-footer">
-          <div className="nav-item settings-item hoverable"><MdSettings className="nav-icon" /><span>Configurações</span></div>
-          <div className="nav-item logout-item text-red hoverable"><svg viewBox="0 0 24 24" width="24" height="24" className="nav-icon"><path fill="currentColor" d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" /></svg><span>Sair</span></div>
+          <div className="nav-item settings-item">
+            <MdSettings className="nav-icon" />
+            <span>Configurações</span>
+          </div>
+          <div className="user-profile">
+            <div className="user-avatar">
+              <img src="https://ui-avatars.com/api/?name=Julian+Smith&background=0D8ABC&color=fff" alt="Dr. Julian Smith" />
+            </div>
+            <div className="user-info">
+              <span className="user-name">{user?.nomeCompleto}</span>
+              <span className="user-role">{user?.especialidade}</span>
+            </div>
+          </div>
         </div>
       </aside>
 
@@ -113,12 +133,7 @@ const Prontuario = () => {
           </div>
           <div className="header-actions">
             <div className="notification-bell action-btn-top"><MdNotifications className="bell-icon text-gray-dark" /></div>
-            <div className="user-profile-top action-btn-top rounded-full bg-light-gray flex-center">
-              <svg viewBox="0 0 24 24" width="20" height="20" className="text-gray-dark"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" /></svg>
-            </div>
-            <div className="user-avatar-top overflow-hidden rounded-full width-36">
-              <img src="https://images.unsplash.com/photo-1612349317150-e410f624c4a4?ixlib=rb-1.2.1&auto=format&fit=crop&w=128&q=80" alt="Doctor" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
+
           </div>
         </header>
 
@@ -250,7 +265,7 @@ const Prontuario = () => {
                               const borderClass = isLast ? 'border-bottom-none' : 'border-bottom-light';
                               const status = item.status || "Concluído";
                               const isConcluido = status.toLowerCase() === 'concluído';
-                              
+
                               let dataFormatada = item.dataExame || item.data || item.dataCriacao || "N/D";
                               if (Array.isArray(dataFormatada)) {
                                 dataFormatada = `${String(dataFormatada[2]).padStart(2, '0')}/${String(dataFormatada[1]).padStart(2, '0')}/${dataFormatada[0]}`;
@@ -260,7 +275,7 @@ const Prontuario = () => {
                                   dataFormatada = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
                                 }
                               }
-                              
+
                               return (
                                 <tr key={item.id || index}>
                                   <td className={`py-md ${borderClass}`}>

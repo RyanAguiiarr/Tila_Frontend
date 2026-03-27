@@ -116,17 +116,34 @@ const Pacientes = () => {
 
         <nav className="sidebar-nav">
           <ul className="nav-list">
-            <li className="nav-item" onClick={() => navigate('/dashboard')}><MdDashboard className="nav-icon" /><span>Painel</span></li>
-            <li className="nav-item active"><MdPeople className="nav-icon" /><span>Pacientes</span></li>
-            <li className="nav-item"><MdDescription className="nav-icon" /><span>Laudos</span></li>
-            <li className="nav-item"><MdCalendarToday className="nav-icon" /><span>Agenda</span></li>
+            <li className="nav-item" onClick={() => navigate('/dashboard')}>
+              <MdDashboard className="nav-icon" />
+              <span>Painel</span>
+            </li>
+            <li className="nav-item active" onClick={() => navigate('/pacientes')}>
+              <MdPeople className="nav-icon" />
+              <span>Pacientes</span>
+            </li>
+            <li className="nav-item">
+              <MdDescription className="nav-icon" />
+              <span>Laudos</span>
+            </li>
+            <li className="nav-item">
+              <MdCalendarToday className="nav-icon" />
+              <span>Agenda</span>
+            </li>
           </ul>
         </nav>
 
         <div className="sidebar-footer">
-          <div className="nav-item settings-item"><MdSettings className="nav-icon" /><span>Configurações</span></div>
+          <div className="nav-item settings-item">
+            <MdSettings className="nav-icon" />
+            <span>Configurações</span>
+          </div>
           <div className="user-profile">
-            <div className="user-avatar"><img src="https://ui-avatars.com/api/?name=Julian+Smith&background=0D8ABC&color=fff" alt="Dr. Julian Smith" /></div>
+            <div className="user-avatar">
+              <img src="https://ui-avatars.com/api/?name=Julian+Smith&background=0D8ABC&color=fff" alt="Dr. Julian Smith" />
+            </div>
             <div className="user-info">
               <span className="user-name">{user?.nomeCompleto}</span>
               <span className="user-role">{user?.especialidade}</span>

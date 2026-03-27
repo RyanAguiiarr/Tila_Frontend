@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  MdDashboard, 
-  MdPeople, 
-  MdDescription, 
-  MdAutoGraph, 
-  MdCalendarToday, 
+import {
+  MdDashboard,
+  MdPeople,
+  MdDescription,
+  MdAutoGraph,
+  MdCalendarToday,
   MdSettings,
   MdSearch,
   MdNotifications,
@@ -29,8 +29,8 @@ const Dashboard = () => {
     <div className="dashboard-container">
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
-        <div 
-          className="sidebar-overlay" 
+        <div
+          className="sidebar-overlay"
           onClick={() => setIsSidebarOpen(false)}
         ></div>
       )}
@@ -47,10 +47,10 @@ const Dashboard = () => {
             <span className="logo-text">Tila Medical</span>
           </div>
         </div>
-        
+
         <nav className="sidebar-nav">
           <ul className="nav-list">
-            <li className="nav-item active">
+            <li className="nav-item active" onClick={() => navigate('/dashboard')}>
               <MdDashboard className="nav-icon" />
               <span>Painel</span>
             </li>
@@ -68,7 +68,7 @@ const Dashboard = () => {
             </li>
           </ul>
         </nav>
-        
+
         <div className="sidebar-footer">
           <div className="nav-item settings-item">
             <MdSettings className="nav-icon" />
@@ -91,8 +91,8 @@ const Dashboard = () => {
         {/* Top Header */}
         <header className="dashboard-header">
           <div className="header-left">
-            <button 
-              className="mobile-menu-btn" 
+            <button
+              className="mobile-menu-btn"
               onClick={() => setIsSidebarOpen(true)}
               aria-label="Abrir Menu"
             >
@@ -119,9 +119,9 @@ const Dashboard = () => {
         <main className="dashboard-content">
           <div className="page-title">
             <h1>Painel do Médico</h1>
-            <p>Bem-vindo de volta, Dr. Smith. Aqui está sua visão geral de hoje, {new Date().toLocaleDateString()}.</p>
+            <p>Bem-vindo de volta, Dr. {user?.nomeCompleto}. Aqui está sua visão geral de hoje, {new Date().toLocaleDateString()}.</p>
           </div>
-          
+
           {/* Summary Cards */}
           <div className="summary-cards">
             {/* Card 1 */}
@@ -131,8 +131,7 @@ const Dashboard = () => {
                 <MdDescription className="card-icon blue-icon" />
               </div>
               <div className="card-body">
-                <span className="card-value">1.284</span>
-                <span className="card-trend positive">+12%~</span>
+                <span className="card-value">0</span>
               </div>
             </div>
 
@@ -143,20 +142,18 @@ const Dashboard = () => {
                 <MdDashboard className="card-icon orange-icon" />
               </div>
               <div className="card-body">
-                <span className="card-value">24</span>
-                <span className="card-subtext">Críticos: 5</span>
+                <span className="card-value">0</span>
               </div>
             </div>
 
             {/* Card 4 */}
             <div className="summary-card">
               <div className="card-header">
-                <span className="card-title">Tempo Médio</span>
+                <span className="card-title">Agendamentos</span>
                 <MdCalendarToday className="card-icon blue-icon" />
               </div>
               <div className="card-body">
-                <span className="card-value">1.4 hrs</span>
-                <span className="card-trend negative">-15%↓</span>
+                <span className="card-value">0</span>
               </div>
             </div>
           </div>
@@ -176,7 +173,6 @@ const Dashboard = () => {
                       <tr>
                         <th>PACIENTE</th>
                         <th>TIPO DE EXAME</th>
-                        <th>CONFIANÇA DA IA</th>
                         <th>AÇÕES</th>
                       </tr>
                     </thead>
@@ -189,12 +185,6 @@ const Dashboard = () => {
                           </div>
                         </td>
                         <td>Raio-X de Tórax (PA)</td>
-                        <td>
-                          <div className="confidence-wrapper">
-                            <div className="confidence-bar"><div className="confidence-fill green" style={{width: '92%'}}></div></div>
-                            <span className="confidence-value">92%</span>
-                          </div>
-                        </td>
                         <td><button className="btn-action">Revisar</button></td>
                       </tr>
                       <tr>
@@ -205,12 +195,6 @@ const Dashboard = () => {
                           </div>
                         </td>
                         <td>RM de Crânio c/ Contraste</td>
-                        <td>
-                          <div className="confidence-wrapper">
-                            <div className="confidence-bar"><div className="confidence-fill orange" style={{width: '78%'}}></div></div>
-                            <span className="confidence-value">78%</span>
-                          </div>
-                        </td>
                         <td><button className="btn-action">Revisar</button></td>
                       </tr>
                       <tr>
@@ -221,12 +205,6 @@ const Dashboard = () => {
                           </div>
                         </td>
                         <td>TC de Abdome/Pelve</td>
-                        <td>
-                          <div className="confidence-wrapper">
-                            <div className="confidence-bar"><div className="confidence-fill green" style={{width: '96%'}}></div></div>
-                            <span className="confidence-value">96%</span>
-                          </div>
-                        </td>
                         <td><button className="btn-action">Revisar</button></td>
                       </tr>
                     </tbody>
@@ -243,8 +221,8 @@ const Dashboard = () => {
                   <div className="report-card">
                     <div className="report-icon-wrapper">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="report-icon">
-                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5H8v1h1.5c.28 0 .5.22.5.5v1.5c0 .28-.22.5-.5.5H8v1H6.5v-6h3c.28 0 .5.22.5.5v1.5c0 .28-.22.5-.5.5zm4.5 1.5H12v-1h2c.28 0 .5-.22.5-.5V10c0-.28-.22-.5-.5-.5h-3v6h1.5v-2h1.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5zm4-3.5h-3v6h1.5v-2h1.5v-1.5h-1.5v-1h1.5V9.5z" fill="#0b57d0"/>
-                        <path d="M8 10.5h1v1H8v-1zm4.5 0h1v2h-1v-2z" fill="#0b57d0"/>
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5H8v1h1.5c.28 0 .5.22.5.5v1.5c0 .28-.22.5-.5.5H8v1H6.5v-6h3c.28 0 .5.22.5.5v1.5c0 .28-.22.5-.5.5zm4.5 1.5H12v-1h2c.28 0 .5-.22.5-.5V10c0-.28-.22-.5-.5-.5h-3v6h1.5v-2h1.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5zm4-3.5h-3v6h1.5v-2h1.5v-1.5h-1.5v-1h1.5V9.5z" fill="#0b57d0" />
+                        <path d="M8 10.5h1v1H8v-1zm4.5 0h1v2h-1v-2z" fill="#0b57d0" />
                       </svg>
                     </div>
                     <div className="report-info">
@@ -253,12 +231,12 @@ const Dashboard = () => {
                     </div>
                     <MdKeyboardArrowRight className="report-arrow" />
                   </div>
-                  
+
                   <div className="report-card">
                     <div className="report-icon-wrapper">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="report-icon">
-                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5H8v1h1.5c.28 0 .5.22.5.5v1.5c0 .28-.22.5-.5.5H8v1H6.5v-6h3c.28 0 .5.22.5.5v1.5c0 .28-.22.5-.5.5zm4.5 1.5H12v-1h2c.28 0 .5-.22.5-.5V10c0-.28-.22-.5-.5-.5h-3v6h1.5v-2h1.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5zm4-3.5h-3v6h1.5v-2h1.5v-1.5h-1.5v-1h1.5V9.5z" fill="#0b57d0"/>
-                        <path d="M8 10.5h1v1H8v-1zm4.5 0h1v2h-1v-2z" fill="#0b57d0"/>
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5H8v1h1.5c.28 0 .5.22.5.5v1.5c0 .28-.22.5-.5.5H8v1H6.5v-6h3c.28 0 .5.22.5.5v1.5c0 .28-.22.5-.5.5zm4.5 1.5H12v-1h2c.28 0 .5-.22.5-.5V10c0-.28-.22-.5-.5-.5h-3v6h1.5v-2h1.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5zm4-3.5h-3v6h1.5v-2h1.5v-1.5h-1.5v-1h1.5V9.5z" fill="#0b57d0" />
+                        <path d="M8 10.5h1v1H8v-1zm4.5 0h1v2h-1v-2z" fill="#0b57d0" />
                       </svg>
                     </div>
                     <div className="report-info">
@@ -292,40 +270,12 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              {/* Estatísticas da IA */}
-              <div className="content-panel stats-panel mt-4">
-                <div className="stats-header">
-                  <MdAutoAwesome className="stats-icon" />
-                  <h2>Estatísticas do Assistente de IA</h2>
-                </div>
-                <div className="stats-body">
-                  <div className="stat-item">
-                    <div className="stat-label">
-                      <span>PRECISÃO DO DIAGNÓSTICO</span>
-                      <span className="stat-value-text">98.4%</span>
-                    </div>
-                    <div className="progress-bar"><div className="progress-fill" style={{width: '98.4%'}}></div></div>
-                  </div>
-                  
-                  <div className="stat-item mt-3">
-                    <div className="stat-label">
-                      <span>TEMPO ECONOMIZADO (MÉDIA)</span>
-                      <span className="stat-value-text">12 min/laudo</span>
-                    </div>
-                    <div className="progress-bar"><div className="progress-fill" style={{width: '100%'}}></div></div>
-                  </div>
-                  
-                  <p className="stats-note">
-                    *Sugestões de IA estão atualmente ativadas para todas as modalidades de Radiografia e TC.*
-                  </p>
-                </div>
-              </div>
 
               {/* Modelos Favoritos (Placeholder based on design cutoff) */}
               <div className="content-panel mt-4">
                 <h2>Modelos Favoritos</h2>
                 <div className="favorites-list mt-3">
-                  <p className="favorites-placeholder">Carregando modelos...</p>
+                  <p className="favorites-placeholder">Em breve modelos de laudos!</p>
                 </div>
               </div>
             </div>

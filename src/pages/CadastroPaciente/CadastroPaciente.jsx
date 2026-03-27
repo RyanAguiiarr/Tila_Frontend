@@ -101,13 +101,10 @@ const closePopupAndNavigate = () => {
               <path d="M12 2L2 12l10 10V2z" fill="#0b57d0" />
               <path d="M12 2l10 10-10 10V2z" fill="#1a73e8" />
             </svg>
-            <div className="logo-text-group">
-              <span className="logo-text">Tila Medical</span>
-              <span className="logo-subtext">PLATAFORMA MÉDICA</span>
-            </div>
+            <span className="logo-text">Tila Medical</span>
           </div>
         </div>
-        
+
         <nav className="sidebar-nav">
           <ul className="nav-list">
             <li className="nav-item" onClick={() => navigate('/dashboard')}>
@@ -128,17 +125,22 @@ const closePopupAndNavigate = () => {
             </li>
           </ul>
         </nav>
-        
+
         <div className="sidebar-footer">
-                  <div className="nav-item settings-item"><MdSettings className="nav-icon" /><span>Configurações</span></div>
-                  <div className="user-profile">
-                    <div className="user-avatar"><img src="https://ui-avatars.com/api/?name=Julian+Smith&background=0D8ABC&color=fff" alt="Dr. Julian Smith" /></div>
-                    <div className="user-info">
-                      <span className="user-name">{user?.nomeCompleto}</span>
-                      <span className="user-role">{user?.especialidade}</span>
-                    </div>
-                  </div>
-                </div>
+          <div className="nav-item settings-item">
+            <MdSettings className="nav-icon" />
+            <span>Configurações</span>
+          </div>
+          <div className="user-profile">
+            <div className="user-avatar">
+              <img src="https://ui-avatars.com/api/?name=Julian+Smith&background=0D8ABC&color=fff" alt="Dr. Julian Smith" />
+            </div>
+            <div className="user-info">
+              <span className="user-name">{user?.nomeCompleto}</span>
+              <span className="user-role">{user?.especialidade}</span>
+            </div>
+          </div>
+        </div>
       </aside>
 
       {/* Main Content Area */}
