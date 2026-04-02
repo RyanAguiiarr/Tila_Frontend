@@ -1,0 +1,9 @@
+<div class="app-container">
+  <app-header *ngIf="!isInternalScreen"></app-header>
+  
+  <main [class.main-content]="!isInternalScreen">
+    <router-outlet></router-outlet>
+  </main>
+
+  <app-footer *ngIf="!isInternalScreen"></app-footer>
+</div>

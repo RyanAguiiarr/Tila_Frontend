@@ -1,0 +1,80 @@
+<div class="login-card-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h1>Login Seguro</h1>
+      <p>Acesse seu painel médico profissional e prontuários de pacientes.</p>
+    </div>
+
+    @if (warningMessage) {
+      <div class="login-warning-message">
+        {{ warningMessage }}
+      </div>
+    }
+
+    <form (submit)="handleSubmit($event)" class="login-form">
+      <div class="form-group">
+        <label for="email">E-mail Profissional</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="medico@clinica.com"
+          class="form-input"
+          [(ngModel)]="email"
+          name="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <div class="password-header">
+          <label for="password">Senha</label>
+          <a href="#forgot" class="forgot-password">Esqueceu a senha?</a>
+        </div>
+        <div class="password-input-wrapper">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            placeholder="••••••••"
+            class="form-input password-input"
+            [(ngModel)]="senha"
+            name="senha"
+          />
+          <button
+            type="button"
+            class="toggle-password-btn"
+            (click)="togglePasswordVisibility()"
+            aria-label="Toggle password visibility"
+          >
+            <span class="material-icons">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" class="custom-checkbox" />
+          <span class="checkmark"></span>
+          Manter conectado neste dispositivo
+        </label>
+      </div>
+
+      <button type="submit" class="submit-btn" (click)="handlelogin($event)">
+        <span class="material-icons btn-icon">lock</span>
+        Login Seguro
+      </button>
+
+      <div class="auth-switch-container" style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 1rem; font-size: 0.875rem;">
+        <span class="auth-switch-text" style="color: var(--text-gray);">Não possui uma conta?</span>
+        <button
+          type="button"
+          (click)="navigate('/cadastro')"
+          class="auth-switch-btn"
+          style="background: none; border: none; color: var(--primary-blue); font-weight: 600; cursor: pointer; padding: 0;"
+        >
+          Cadastre-se
+        </button>
+      </div>
+    </form>
+
+    <app-security-badges></app-security-badges>
+  </div>
+</div>

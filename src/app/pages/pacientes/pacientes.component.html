@@ -1,0 +1,194 @@
+<div class="dashboard-container">
+  <!-- Mobile Sidebar Overlay -->
+  @if (isSidebarOpen) {
+    <div class="sidebar-overlay" (click)="setIsSidebarOpen(false)"></div>
+  }
+
+  <!-- Sidebar -->
+  <aside class="dashboard-sidebar" [class.open]="isSidebarOpen">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="logo-icon">
+          <path d="M12 2L2 12l10 10 10-10L12 2z" fill="currentColor" />
+          <path d="M12 2L2 12l10 10V2z" fill="#0b57d0" />
+          <path d="M12 2l10 10-10 10V2z" fill="#1a73e8" />
+        </svg>
+        <span class="logo-text">Tila Medical</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul class="nav-list">
+        <li class="nav-item" routerLink="/dashboard">
+          <span class="material-icons nav-icon">dashboard</span>
+          <span>Painel</span>
+        </li>
+        <li class="nav-item active" routerLink="/pacientes">
+          <span class="material-icons nav-icon">people</span>
+          <span>Pacientes</span>
+        </li>
+        <li class="nav-item">
+          <span class="material-icons nav-icon">description</span>
+          <span>Laudos</span>
+        </li>
+        <li class="nav-item">
+          <span class="material-icons nav-icon">calendar_today</span>
+          <span>Agenda</span>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="nav-item settings-item">
+        <span class="material-icons nav-icon">settings</span>
+        <span>Configurações</span>
+      </div>
+      <div class="user-profile">
+        <div class="user-avatar">
+          <img src="https://ui-avatars.com/api/?name=Julian+Smith&background=0D8ABC&color=fff" alt="Dr. Julian Smith" />
+        </div>
+        <div class="user-info">
+          <span class="user-name">{{ user()?.nomeCompleto }}</span>
+          <span class="user-role">{{ user()?.especialidade }}</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="dashboard-main">
+    <!-- Top Header -->
+    <header class="dashboard-header">
+      <div class="header-left">
+        <button class="mobile-menu-btn" (click)="setIsSidebarOpen(true)" aria-label="Abrir Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
+        </button>
+        <div class="search-bar search-bar-pacientes">
+          <span class="material-icons search-icon">search</span>
+          <input type="text" placeholder="Buscar por nome do paciente ou CPF..." />
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="notification-bell"><span class="material-icons bell-icon">notifications</span><span class="notification-dot"></span></div>
+        <button class="btn-primary" (click)="navigate('/pacientes/novo')">
+          <span class="material-icons btn-icon">add</span>
+          <span class="btn-text">Adicionar Novo Paciente</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Pacientes Content -->
+    <main class="dashboard-content">
+      <div class="page-title">
+        <h1>Prontuários de Pacientes</h1>
+        <p>Gerencie, acompanhe e inicie laudos clínicos para todos os pacientes registrados.</p>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="summary-cards">
+        <div class="summary-card">
+          <div class="card-header pt-0"><span class="card-title text-dark-gray">Total de Pacientes</span></div>
+          <div class="card-body-pacientes"><span class="card-value">{{ pacientes.length }}</span><span class="card-trend positive">Totais Registrados</span></div>
+        </div>
+        <div class="summary-card">
+          <div class="card-header pt-0"><span class="card-title text-dark-gray">Exames Recentes</span></div>
+          <div class="card-body-pacientes"><span class="card-value">{{ totalExames() }}</span><span class="card-subtext-light">Últimas 24 horas</span></div>
+        </div>
+        <div class="summary-card">
+          <div class="card-header pt-0"><span class="card-title text-dark-gray">Laudos Pendentes</span></div>
+          <div class="card-body-pacientes"><span class="card-value text-blue">0</span><span class="card-subtext-light text-blue">Atribuídos a você</span></div>
+        </div>
+      </div>
+
+      <div class="content-panel full-width-panel">
+        <div class="table-container">
+          <table class="pacientes-table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Idade</th>
+                <th>Exame Recente</th>
+                <th class="text-right">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (paciente of currentPacientes; track $index) {
+                <tr>
+                  <td>
+                    <div class="patient-name-col">
+                      <div [class]="getAvatarClasses($index)">
+                        {{ obterIniciais(paciente.nomeCompleto) }}
+                      </div>
+                      <span class="font-bold text-dark">{{ paciente.nomeCompleto }}</span>
+                    </div>
+                  </td>
+                  <td class="text-gray">{{ paciente.cpf }}</td>
+                  <td class="text-gray">{{ calcularIdade(paciente.dataNascimento) }}</td>
+                  <td>
+                    <div class="exam-info">
+                      <span class="font-bold text-dark">Exame de Rotina</span>
+                      <span class="text-small text-gray">15/10/2023</span>
+                    </div>
+                  </td>
+                  <td class="actions-col">
+                    <button class="btn-outline" (click)="navigate('/pacientes/' + paciente.id)">Ver Prontuário</button>
+                    <button class="btn-solid-blue">Iniciar Laudo</button>
+                  </td>
+                </tr>
+              }
+              
+              @if (pacientes.length === 0) {
+                <tr>
+                  <td colspan="5" class="text-center text-gray" style="padding: 3rem;">
+                    Nenhum paciente cadastrado.
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+
+          <!-- Pagination -->
+          @if (pacientes.length > 0) {
+            <div class="pagination-wrapper">
+              <span class="pagination-info">
+                Exibindo {{ (currentPage - 1) * itemsPerPage + 1 }} a {{ currentPacientes.length === itemsPerPage ? currentPage * itemsPerPage : pacientes.length }} de {{ pacientes.length }} resultados
+              </span>
+              <div class="pagination-controls">
+                <button
+                  class="page-btn"
+                  (click)="handlePageChange(currentPage - 1)"
+                  [disabled]="currentPage === 1"
+                >
+                  <span class="material-icons">keyboard_arrow_left</span>
+                </button>
+
+                @for (num of getPageNumbers(); track $index) {
+                  @if (num === '...') {
+                    <span class="page-dots">...</span>
+                  } @else {
+                    <button
+                      class="page-btn"
+                      [class.active]="currentPage === num"
+                      (click)="handlePageChange(num)"
+                    >
+                      {{ num }}
+                    </button>
+                  }
+                }
+
+                <button
+                  class="page-btn"
+                  (click)="handlePageChange(currentPage + 1)"
+                  [disabled]="currentPage === totalPages"
+                >
+                  <span class="material-icons">keyboard_arrow_right</span>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

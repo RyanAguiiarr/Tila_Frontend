@@ -1,0 +1,316 @@
+<div class="dashboard-container">
+  <!-- Mobile Sidebar Overlay -->
+  @if (isSidebarOpen) {
+    <div class="sidebar-overlay" (click)="setIsSidebarOpen(false)"></div>
+  }
+
+  <!-- Sidebar -->
+  <aside class="dashboard-sidebar" [class.open]="isSidebarOpen">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="logo-icon">
+          <path d="M12 2L2 12l10 10 10-10L12 2z" fill="currentColor" />
+          <path d="M12 2L2 12l10 10V2z" fill="#0b57d0" />
+          <path d="M12 2l10 10-10 10V2z" fill="#1a73e8" />
+        </svg>
+        <span class="logo-text">Tila Medical</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul class="nav-list">
+        <li class="nav-item" routerLink="/dashboard">
+          <span class="material-icons nav-icon">dashboard</span>
+          <span>Painel</span>
+        </li>
+        <li class="nav-item active" routerLink="/pacientes">
+          <span class="material-icons nav-icon">people</span>
+          <span>Pacientes</span>
+        </li>
+        <li class="nav-item">
+          <span class="material-icons nav-icon">description</span>
+          <span>Laudos</span>
+        </li>
+        <li class="nav-item">
+          <span class="material-icons nav-icon">calendar_today</span>
+          <span>Agenda</span>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="nav-item settings-item">
+        <span class="material-icons nav-icon">settings</span>
+        <span>Configurações</span>
+      </div>
+      <div class="user-profile">
+        <div class="user-avatar">
+          <img src="https://ui-avatars.com/api/?name=Julian+Smith&background=0D8ABC&color=fff" alt="Dr." />
+        </div>
+        <div class="user-info">
+          <span class="user-name">{{ user()?.nomeCompleto }}</span>
+          <span class="user-role">{{ user()?.especialidade }}</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="dashboard-main bg-light-gray-app">
+    <!-- Top Header -->
+    <header class="dashboard-header bg-white border-bottom-light">
+      <div class="header-left">
+        <button class="mobile-menu-btn" (click)="setIsSidebarOpen(true)" aria-label="Abrir Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
+        </button>
+        <div class="search-bar search-bar-prontuario fill-gray">
+          <span class="material-icons search-icon">search</span>
+          <input type="text" placeholder="Buscar pacientes..." />
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="notification-bell action-btn-top"><span class="material-icons bell-icon text-gray-dark">notifications</span></div>
+      </div>
+    </header>
+
+    <!-- Prontuario Content -->
+    <main class="dashboard-content prontuario-container pt-lg">
+
+      <!-- Patient Header Card -->
+      <div class="card patient-header-card shadow-sm border-radius-lg mb-lg">
+        <div class="patient-header-content p-lg flex-row space-between align-center">
+
+          <div class="patient-info-left flex-row align-center gap-lg">
+            <div class="patient-avatar-large shadow-sm">
+              <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80" alt="Sarah Jenkins" />
+            </div>
+
+            <div class="patient-info-main flex-col gap-xs">
+              <div class="patient-name-row flex-row align-center gap-sm mb-xs">
+                <h1 class="patient-name m-0 text-xl font-bold">{{ paciente?.nomeCompleto }}</h1>
+                <span class="status-pill status-estavel">ESTÁVEL</span>
+              </div>
+
+              <div class="patient-details-row flex-row align-center gap-xs text-gray text-sm font-medium mb-xs">
+                <span class="detail-item">ID: #{{ paciente?.id }}</span>
+                <span class="detail-dot font-black">•</span>
+                <span class="detail-item">{{ calcularIdade(paciente?.dataNascimento) }} anos</span>
+                <span class="detail-dot font-black">•</span>
+                <span class="detail-item">GENERICO</span>
+              </div>
+
+              <div class="patient-update-row flex-row align-center gap-xs text-light-gray text-xs font-medium">
+                <span class="material-icons update-icon">history</span>
+                <span class="update-text">Última atualização: 12 Out 2023 às 14:30</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="patient-actions flex-row gap-sm">
+            <button class="btn-outline-gray btn-with-icon font-bold text-sm">
+              <span class="material-icons icon-sm">edit</span>
+              Editar Cadastro
+            </button>
+            <button class="btn-solid-blue btn-with-icon font-bold text-sm">
+              <span class="material-icons icon-sm">add</span>
+              Novo Laudo
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs Navigation -->
+      <div class="prontuario-tabs flex-row border-bottom-light mb-lg">
+        <button class="tab-item" [class.active]="activeTab === 'resumo'" (click)="setActiveTab('resumo')">Resumo</button>
+        <button class="tab-item" [class.active]="activeTab === 'historico'" (click)="setActiveTab('historico')">Histórico</button>
+        <button class="tab-item" [class.active]="activeTab === 'notas'" (click)="setActiveTab('notas')">Notas Clínicas</button>
+        <button class="tab-item" [class.active]="activeTab === 'imagens'" (click)="setActiveTab('imagens')">Imagens</button>
+      </div>
+
+      <!-- Resumo Tab Content -->
+      @if (activeTab === 'resumo') {
+        <div class="prontuario-grid">
+
+          <!-- Left Column -->
+          <div class="grid-left-col flex-col gap-lg">
+
+            <!-- Resumo do Paciente Card -->
+            <div class="card shadow-sm border-radius-lg bg-white">
+              <div class="card-header pb-0 border-none pt-lg px-lg">
+                <div class="card-title-with-icon flex-row align-center gap-sm">
+                  <span class="material-icons title-icon text-blue text-lg">assignment</span>
+                  <h2 class="text-md font-bold m-0 text-dark">Resumo do Paciente</h2>
+                </div>
+              </div>
+              <div class="card-content p-lg">
+                <div class="info-grid-4 flex-row space-between gap-md border-top-light pt-md mt-sm">
+                  <div class="info-block flex-col gap-xs">
+                    <span class="info-label text-xs font-bold text-light-gray ls-wide">TIPO SANGUÍNEO</span>
+                    <span class="info-value text-lg font-bold text-dark">O Rh+</span>
+                  </div>
+                  <div class="info-block flex-col gap-xs">
+                    <span class="info-label text-xs font-bold text-light-gray ls-wide">ALERGIAS</span>
+                    <span class="info-value text-md font-bold text-red">Penicilina</span>
+                  </div>
+                  <div class="info-block flex-col gap-xs">
+                    <span class="info-label text-xs font-bold text-light-gray ls-wide">MÉDICO RESPONSÁVEL</span>
+                    <span class="info-value text-md font-bold text-dark">Dr. Aris</span>
+                  </div>
+                  <div class="info-block flex-col gap-xs">
+                    <span class="info-label text-xs font-bold text-light-gray ls-wide">PESO / ALTURA</span>
+                    <span class="info-value text-md font-bold text-dark">68kg / 1.72m</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Histórico de Laudos Card -->
+            <div class="card shadow-sm border-radius-lg bg-white">
+              <div class="card-header border-none flex-row space-between align-center pt-lg px-lg pb-sm">
+                <div class="card-title-with-icon flex-row align-center gap-sm">
+                  <span class="material-icons title-icon text-blue text-lg">history</span>
+                  <h2 class="text-md font-bold m-0 text-dark">Histórico de Laudos</h2>
+                </div>
+                <button class="link-button text-blue text-sm font-bold bg-transparent border-none cursor-pointer hover-underline">Ver todos</button>
+              </div>
+              <div class="card-content px-lg pb-lg pt-0">
+                <div class="table-wrapper">
+                  <table class="history-table w-100 border-collapse">
+                    <thead>
+                      <tr>
+                        <th class="text-left text-xs font-bold text-light-gray pb-sm pt-sm uppercase border-bottom-light">EXAME</th>
+                        <th class="text-left text-xs font-bold text-light-gray pb-sm pt-sm uppercase border-bottom-light">DATA</th>
+                        <th class="text-left text-xs font-bold text-light-gray pb-sm pt-sm uppercase border-bottom-light">STATUS</th>
+                        <th class="text-right text-xs font-bold text-light-gray pb-sm pt-sm uppercase border-bottom-light w-100-px">AÇÃO</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @if (getListaExames().length === 0) {
+                        <tr>
+                          <td colspan="4" class="py-md text-center text-gray border-bottom-none">
+                            Nenhum laudo encontrado para este paciente.
+                          </td>
+                        </tr>
+                      } @else {
+                        @for (item of getListaExames(); track item.id || $index; let last = $last) {
+                          <tr>
+                            <td class="py-md {{ last ? 'border-bottom-none' : 'border-bottom-light' }}">
+                              <div class="exam-type-row flex-row align-center gap-md">
+                                <div class="exam-icon-box bg-light-blue text-blue flex-center rounded width-32 height-32">
+                                  <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" /></svg>
+                                </div>
+                                <span class="font-bold text-dark text-sm line-height-tight">
+                                  {{ item.tipoExame || item.exame || item.nome || item.titulo || "Exame" }}
+                                </span>
+                              </div>
+                            </td>
+                            <td class="py-md {{ last ? 'border-bottom-none' : 'border-bottom-light' }} text-gray text-sm line-height-tight">
+                              {{ formatarDataResumo(item) }}
+                            </td>
+                            <td class="py-md {{ last ? 'border-bottom-none' : 'border-bottom-light' }}">
+                              <span class="status-pill-bg text-xs font-bold rounded-full px-sm py-xs {{ isStatusConcluido(item) ? 'text-blue bg-light-blue' : 'text-yellow-dark bg-light-yellow' }}">
+                                {{ item.status || 'Concluído' }}
+                              </span>
+                            </td>
+                            <td class="py-md {{ last ? 'border-bottom-none' : 'border-bottom-light' }} text-right">
+                              <button class="action-btn font-bold flex-row align-center justify-end w-100 gap-xs bg-transparent border-none p-0 text-sm {{ isStatusConcluido(item) ? 'text-blue cursor-pointer' : 'text-light-gray cursor-default' }}">
+                                <span class="material-icons text-md">{{ isStatusConcluido(item) ? 'visibility' : 'visibility_off' }}</span>
+                                {{ isStatusConcluido(item) ? 'Visualizar' : 'Indisponível' }}
+                              </button>
+                            </td>
+                          </tr>
+                        }
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="grid-right-col flex-col gap-lg">
+
+            <!-- Notas Clínicas Card -->
+            <div class="card shadow-sm border-radius-lg bg-white h-full-stretch">
+              <div class="card-header border-none pt-lg px-lg pb-md">
+                <div class="card-title-with-icon flex-row align-center gap-sm">
+                  <span class="material-icons title-icon text-blue text-lg flex-shrink-0">assignment</span>
+                  <h2 class="text-md font-bold m-0 text-dark">Notas Clínicas</h2>
+                </div>
+              </div>
+              <div class="card-content px-lg pb-lg pt-0 flex-col space-between h-minus-header">
+                <div class="timeline-wrapper mb-lg">
+
+                  <!-- Timeline Item 1 -->
+                  <div class="timeline-item flex-row gap-md position-relative">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-dot-container mt-sm z-index-1">
+                      <div class="timeline-dot active-dot bg-blue rounded-full width-10 border-white-thick"></div>
+                    </div>
+                    <div class="timeline-content pb-lg w-100">
+                      <div class="timeline-header flex-row align-center gap-sm mb-xs">
+                        <span class="timeline-date text-xs font-bold text-light-gray">12 OUT 2023</span>
+                        <span class="timeline-badge bg-light-blue text-blue text-xs-micro font-bold rounded px-test py-test">ROTINA</span>
+                      </div>
+                      <p class="timeline-text text-sm text-dark font-medium m-0 mb-xs pr-md line-height-normal">Paciente relata melhora nas dores de cabeça.</p>
+                      <span class="timeline-author text-xs text-light-gray italic">Por: Dra. Ana Costa</span>
+                    </div>
+                  </div>
+
+                  <!-- Timeline Item 2 -->
+                  <div class="timeline-item flex-row gap-md position-relative">
+                    <div class="timeline-dot-container mt-sm z-index-1">
+                      <div class="timeline-dot inactive-dot bg-light-gray-solid rounded-full width-10 border-white-thick"></div>
+                    </div>
+                    <div class="timeline-content w-100">
+                      <div class="timeline-header flex-row align-center gap-sm mb-xs">
+                        <span class="timeline-date text-xs font-bold text-light-gray">28 SET 2023</span>
+                      </div>
+                      <p class="timeline-text text-sm text-gray m-0 mb-xs pr-md line-height-normal">Prescrição ajustada para monitoramento de pressão arterial semanal.</p>
+                      <span class="timeline-author text-xs text-light-gray italic">Por: Dr. Aris</span>
+                    </div>
+                  </div>
+
+                </div>
+
+                <button class="btn-outline-full w-100 py-sm rounded border-light text-dark font-bold bg-transparent cursor-pointer hover-bg-light transition-all">Adicionar Nota</button>
+              </div>
+            </div>
+
+            <!-- Imagens Recentes Card -->
+            <div class="card shadow-sm border-radius-lg bg-white">
+              <div class="card-header border-none pt-lg px-lg pb-md">
+                <div class="card-title-with-icon flex-row align-center gap-sm">
+                  <span class="material-icons title-icon text-blue text-lg flex-shrink-0">photo_library</span>
+                  <h2 class="text-md font-bold m-0 text-dark">Imagens Recentes</h2>
+                </div>
+              </div>
+              <div class="card-content px-lg pb-lg pt-0">
+                <div class="images-grid">
+                  <div class="img-box rounded overflow-hidden cursor-pointer hover-opacity">
+                    <img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=200&q=80" alt="MRI" class="w-100 h-100 object-cover" />
+                  </div>
+                  <div class="img-box rounded overflow-hidden cursor-pointer hover-opacity">
+                    <img src="https://images.unsplash.com/photo-1516062423079-7ca13cdc7f51?auto=format&fit=crop&w=200&q=80" alt="X-Ray" class="w-100 h-100 object-cover" />
+                  </div>
+                  <div class="img-box rounded overflow-hidden cursor-pointer hover-opacity">
+                    <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=200&q=80" alt="Scan" class="w-100 h-100 object-cover" />
+                  </div>
+                  <div class="img-box rounded overflow-hidden bg-light-gray-app flex-center flex-col text-blue cursor-pointer hover-bg-light-blue transition-all border-dashed-blue">
+                    <div class="more-content flex-center flex-col gap-xs">
+                      <span class="material-icons icon-more text-lg">photo_library</span>
+                      <span class="text-xs font-bold uppercase">Mais</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      }
+
+    </main>
+  </div>
+</div>

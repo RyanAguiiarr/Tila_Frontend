@@ -1,0 +1,234 @@
+<div class="dashboard-container">
+  <!-- Mobile Sidebar Overlay -->
+  @if (isSidebarOpen) {
+    <div class="sidebar-overlay" (click)="setIsSidebarOpen(false)"></div>
+  }
+
+  <!-- Sidebar -->
+  <aside class="dashboard-sidebar" [class.open]="isSidebarOpen">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="logo-icon">
+          <path d="M12 2L2 12l10 10 10-10L12 2z" fill="currentColor" />
+          <path d="M12 2L2 12l10 10V2z" fill="#0b57d0" />
+          <path d="M12 2l10 10-10 10V2z" fill="#1a73e8" />
+        </svg>
+        <span class="logo-text">Tila Medical</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul class="nav-list">
+        <li class="nav-item" routerLink="/dashboard">
+          <span class="material-icons nav-icon">dashboard</span>
+          <span>Painel</span>
+        </li>
+        <li class="nav-item active" routerLink="/pacientes">
+          <span class="material-icons nav-icon">people</span>
+          <span>Pacientes</span>
+        </li>
+        <li class="nav-item">
+          <span class="material-icons nav-icon">description</span>
+          <span>Laudos</span>
+        </li>
+        <li class="nav-item">
+          <span class="material-icons nav-icon">calendar_today</span>
+          <span>Agenda</span>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="nav-item settings-item">
+        <span class="material-icons nav-icon">settings</span>
+        <span>Configurações</span>
+      </div>
+      <div class="user-profile">
+        <div class="user-avatar">
+          <img src="https://ui-avatars.com/api/?name=Julian+Smith&background=0D8ABC&color=fff" alt="Dr." />
+        </div>
+        <div class="user-info">
+          <span class="user-name">{{ user()?.nomeCompleto }}</span>
+          <span class="user-role">{{ user()?.especialidade }}</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="dashboard-main bg-light">
+    <!-- Top Header Placeholder / Mobile Toggle -->
+    <header class="dashboard-header header-cadastro">
+      <button class="mobile-menu-btn" (click)="setIsSidebarOpen(true)" aria-label="Abrir Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
+      </button>
+    </header>
+
+    <!-- Cadastro Content -->
+    <main class="cadastro-content">
+      <div class="breadcrumbs">
+        <a routerLink="/pacientes" class="breadcrumb-link">Pacientes</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">Cadastrar Novo Paciente</span>
+      </div>
+
+      <div class="page-header">
+        <h1>Cadastrar Novo Paciente</h1>
+        <p class="page-subtitle">Insira as informações detalhadas para registrar um novo paciente no banco de dados da clínica.</p>
+      </div>
+      
+      <form class="cadastro-form" (submit)="handleSubmit($event)">
+        <section class="form-section">
+          <div class="section-header">
+            <span class="material-icons section-icon feature-icon">person</span>
+            <h2>Dados Pessoais</h2>
+          </div>
+          <div class="form-grid">
+            <div class="form-group col-span-2">
+              <label>Nome Completo *</label>
+              <input type="text" placeholder="Ex: Maria Oliveira" [(ngModel)]="formData.nomeCompleto" name="nomeCompleto" [class.input-error]="formErrors['nomeCompleto']" />
+              @if (formErrors['nomeCompleto']) { <span class="error-text">{{formErrors['nomeCompleto']}}</span> }
+            </div>
+            <div class="form-group">
+              <label>CPF *</label>
+              <input type="text" placeholder="000.000.000-00" [ngModel]="formData.cpf" (ngModelChange)="onCPFChange($event)" name="cpf" [class.input-error]="formErrors['cpf']" />
+              @if (formErrors['cpf']) { <span class="error-text">{{formErrors['cpf']}}</span> }
+            </div>
+            <div class="form-group">
+              <label>Data de Nascimento *</label>
+              <div class="input-with-icon">
+                <input type="text" placeholder="DD/MM/AAAA" [ngModel]="formData.dataNascimento" (ngModelChange)="onDataNascimentoChange($event)" name="dataNascimento" [class.input-error]="formErrors['dataNascimento']" />
+                <span class="material-icons inner-icon">calendar_today</span>
+              </div>
+              @if (formErrors['dataNascimento']) { <span class="error-text">{{formErrors['dataNascimento']}}</span> }
+            </div>
+            <div class="form-group">
+              <label>Gênero *</label>
+              <div class="select-wrapper">
+                <select [(ngModel)]="formData.genero" name="genero" [class.input-error]="formErrors['genero']">
+                  <option value="" disabled>Selecione</option>
+                  <option value="M">Masculino</option>
+                  <option value="F">Feminino</option>
+                  <option value="O">Outro</option>
+                </select>
+              </div>
+              @if (formErrors['genero']) { <span class="error-text">{{formErrors['genero']}}</span> }
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section">
+          <div class="section-header">
+            <span class="material-icons section-icon feature-icon">phone</span>
+            <h2>Contato</h2>
+          </div>
+          <div class="form-grid">
+            <div class="form-group col-span-2">
+              <label>E-mail *</label>
+              <input type="email" placeholder="paciente@exemplo.com" [(ngModel)]="formData.email" name="email" [class.input-error]="formErrors['email']" />
+              @if (formErrors['email']) { <span class="error-text">{{formErrors['email']}}</span> }
+            </div>
+            <div class="form-group col-span-2">
+              <label>Telefone / WhatsApp *</label>
+              <input type="text" placeholder="(00) 00000-0000" [ngModel]="formData.telefone" (ngModelChange)="onTelefoneChange($event)" name="telefone" [class.input-error]="formErrors['telefone']" />
+              @if (formErrors['telefone']) { <span class="error-text">{{formErrors['telefone']}}</span> }
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section">
+          <div class="section-header">
+            <span class="material-icons section-icon feature-icon">location_on</span>
+            <h2>Endereço</h2>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>CEP *</label>
+              <input type="text" placeholder="00000-000" [(ngModel)]="formData.cep" name="cep" [class.input-error]="formErrors['cep']" />
+              @if (formErrors['cep']) { <span class="error-text">{{formErrors['cep']}}</span> }
+            </div>
+            <div class="form-group col-span-3">
+              <label>Logradouro *</label>
+              <input type="text" placeholder="Rua, Avenida, etc." [(ngModel)]="formData.logradouro" name="logradouro" [class.input-error]="formErrors['logradouro']" />
+              @if (formErrors['logradouro']) { <span class="error-text">{{formErrors['logradouro']}}</span> }
+            </div>
+            <div class="form-group">
+              <label>Número *</label>
+              <input type="text" placeholder="123" [(ngModel)]="formData.numero" name="numero" [class.input-error]="formErrors['numero']" />
+              @if (formErrors['numero']) { <span class="error-text">{{formErrors['numero']}}</span> }
+            </div>
+            <div class="form-group col-span-2">
+              <label>Complemento</label>
+              <input type="text" placeholder="Apto, Bloco, etc." [(ngModel)]="formData.complemento" name="complemento" />
+            </div>
+            <div class="form-group">
+              <label>Bairro *</label>
+              <input type="text" placeholder="Nome do bairro" [(ngModel)]="formData.bairro" name="bairro" [class.input-error]="formErrors['bairro']" />
+              @if (formErrors['bairro']) { <span class="error-text">{{formErrors['bairro']}}</span> }
+            </div>
+            <div class="form-group col-span-2">
+              <label>Cidade *</label>
+              <input type="text" placeholder="Nome da cidade" [(ngModel)]="formData.cidade" name="cidade" [class.input-error]="formErrors['cidade']" />
+              @if (formErrors['cidade']) { <span class="error-text">{{formErrors['cidade']}}</span> }
+            </div>
+            <div class="form-group">
+              <label>Estado *</label>
+              <div class="select-wrapper">
+                <select [(ngModel)]="formData.estado" name="estado" [class.input-error]="formErrors['estado']">
+                  <option value="" disabled>UF</option>
+                  <option value="AC">AC</option>
+                  <option value="AL">AL</option>
+                  <option value="AP">AP</option>
+                  <option value="AM">AM</option>
+                  <option value="BA">BA</option>
+                  <option value="CE">CE</option>
+                  <option value="DF">DF</option>
+                  <option value="ES">ES</option>
+                  <option value="GO">GO</option>
+                  <option value="MA">MA</option>
+                  <option value="MT">MT</option>
+                  <option value="MS">MS</option>
+                  <option value="MG">MG</option>
+                  <option value="PA">PA</option>
+                  <option value="PB">PB</option>
+                  <option value="PR">PR</option>
+                  <option value="PE">PE</option>
+                  <option value="PI">PI</option>
+                  <option value="RJ">RJ</option>
+                  <option value="RN">RN</option>
+                  <option value="RS">RS</option>
+                  <option value="RO">RO</option>
+                  <option value="RR">RR</option>
+                  <option value="SC">SC</option>
+                  <option value="SP">SP</option>
+                  <option value="SE">SE</option>
+                  <option value="TO">TO</option>
+                </select>
+              </div>
+              @if (formErrors['estado']) { <span class="error-text">{{formErrors['estado']}}</span> }
+            </div>
+          </div>
+        </section>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancelar" (click)="navigate('/pacientes')">Cancelar</button>
+          <button type="button" class="btn-cadastrar" (click)="handleCadastroPaciente()">Cadastrar Paciente</button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <!-- Success Popup -->
+  @if (showSuccessPopup) {
+    <div class="popup-overlay">
+      <div class="popup-content">
+        <span class="material-icons popup-icon">check_circle</span>
+        <h2>Cadastro Realizado!</h2>
+        <p>O paciente foi cadastrado com sucesso no sistema.</p>
+        <button class="btn-popup-ok" (click)="closePopupAndNavigate()">
+          Continuar
+        </button>
+      </div>
+    </div>
+  }
+</div>
