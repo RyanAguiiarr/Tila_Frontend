@@ -96,7 +96,10 @@ export class PacientesComponent implements OnInit {
 
   buscarPacientes() {
     this.pacienteApi.buscarTodosPacientes().subscribe({
-      next: (data) => this.pacientes = data,
+      next: (data) => {
+        console.log("Agora sim, os dados chegaram:", data);
+        this.pacientes = data;
+      },
       error: (e) => console.error('Erro ao buscar pacientes:', e)
     });
   }

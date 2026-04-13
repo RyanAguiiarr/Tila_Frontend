@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
     ).subscribe((event: NavigationEnd) => {
       const url = event.urlAfterRedirects;
       const currentScreen = url.split('/')[1] || 'login';
-      this.isInternalScreen = ['dashboard', 'pacientes', 'prontuario'].includes(currentScreen);
+      this.isInternalScreen = ['dashboard', 'pacientes', 'prontuario', 'laudo', 'logs'].includes(currentScreen);
     });
   }
 }

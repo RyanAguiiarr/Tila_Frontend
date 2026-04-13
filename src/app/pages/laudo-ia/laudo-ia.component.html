@@ -1,0 +1,147 @@
+<div class="dashboard-container">
+  <!-- Mobile Sidebar Overlay -->
+  @if (isSidebarOpen) {
+    <div class="sidebar-overlay" (click)="setIsSidebarOpen(false)"></div>
+  }
+
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main Content Area -->
+  <div class="dashboard-main">
+
+    <!-- Laudo IA Content -->
+    <main class="dashboard-content">
+      <div class="breadcrumb">
+        Laudos &gt; <span>Nova Geração por IA</span>
+      </div>
+
+      <div class="screen-header">
+        <div class="title-group">
+          <h1>Geração de Laudo por IA</h1>
+          <p>Faça o upload de imagens médicas e contexto para gerar rascunhos diagnósticos profissionais.</p>
+        </div>
+        <div class="action-buttons">
+          <button class="btn-outline">
+            <span class="material-icons" style="font-size: 1.1rem" aria-hidden="true">save</span> Salvar Rascunho
+          </button>
+          <button class="btn-primary">
+            <span class="material-icons" style="font-size: 1.1rem" aria-hidden="true">auto_awesome</span> Gerar Rascunho por IA
+          </button>
+        </div>
+      </div>
+
+      <div class="laudo-grid">
+        <!-- Left Column -->
+        <div class="left-column">
+          <!-- Images Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="material-icons" style="color: #4285f4;" aria-hidden="true">description</span> 1. Imagens Médicas
+              </div>
+              <div class="chip-blue">DICOM / JPG</div>
+            </div>
+            <div class="card-body">
+              <div class="drop-area">
+                <span class="image-tag">TÓRAX-PA-E</span>
+                <span class="image-tag" style="background-color: rgba(0,0,0,0.5);">10/04/2023</span>
+              </div>
+              <div class="thumbnails">
+                <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=60&h=60" alt="X-Ray" class="thumb-image" />
+                <button class="thumb-add" aria-label="Adicionar miniatura">
+                  <span class="material-icons" aria-hidden="true">add</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notes Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="material-icons" style="color: #4285f4;" aria-hidden="true">edit_note</span> 2. Notas Médicas Rápidas
+              </div>
+            </div>
+            <div class="card-body">
+              <label for="notas-medicas" class="sr-only">Notas Médicas</label>
+              <textarea id="notas-medicas" class="notes-input" placeholder="Insira o histórico clínico, sintomas ou áreas específicas de preocupação para a IA focar..."></textarea>
+              <div class="presets">
+                <span class="presets-label">PREDEFINIÇÕES:</span>
+                <button class="preset-chip">Check-up de Rotina</button>
+                <button class="preset-chip">Emergência/Trauma</button>
+                <button class="preset-chip">Pré-Operatório</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-column">
+          <div class="card" style="flex: 1;">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="material-icons" aria-hidden="true">auto_awesome</span> Rascunho Gerado por IA
+              </div>
+              <div class="card-actions" style="align-items: center;">
+                <div class="status-ready"><span class="dot"></span> Pronto</div>
+                <button class="icon-btn" aria-label="Copiar tudo"><span class="material-icons" style="font-size: 1.1rem; color: #5f6368; margin-left: 8px;" aria-hidden="true">copy_all</span></button>
+                <button class="icon-btn" aria-label="Histórico"><span class="material-icons" style="font-size: 1.1rem; color: #5f6368; margin-left: 4px;" aria-hidden="true">history</span></button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="draft-content">
+                <div class="draft-section">
+                  <div class="section-header">
+                    <span class="section-title">ACHADOS <span class="material-icons" style="font-size: 1rem; color: #9aa0a6;" aria-hidden="true">info</span></span>
+                    <button class="btn-link">Editar Seção</button>
+                  </div>
+                  <p class="draft-text" style="font-style: italic;">"{{ draftData.achados }}"</p>
+                </div>
+
+                <div class="draft-section">
+                  <div class="section-header">
+                    <span class="section-title">IMPRESSÃO</span>
+                    <button class="btn-link">Editar Seção</button>
+                  </div>
+                  <ul class="draft-list">
+                    @for(item of draftData.impressao; track item) {
+                      <li>{{ item }}</li>
+                    }
+                  </ul>
+                </div>
+
+                <div class="draft-section">
+                  <div class="section-header">
+                    <span class="section-title">RECOMENDAÇÕES</span>
+                    <button class="btn-link">Editar Seção</button>
+                  </div>
+                  <p class="draft-text">{{ draftData.recomendacoes }}</p>
+                </div>
+              </div>
+
+              <div class="confidence-area">
+                <div class="confidence-header">
+                  <span>Pontuação de Confiança da IA</span>
+                  <span>{{ confidenceScore }}%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" [style.width.%]="confidenceScore"></div>
+                </div>
+                <div class="confidence-footer">
+                  Este rascunho foi gerado pelo Tila AI v4.2 e requer verificação médica final.
+                </div>
+                <div class="draft-actions">
+                  <button class="btn-danger-outline">Rejeitar Rascunho</button>
+                  <button class="btn-approve">
+                    <span class="material-icons" aria-hidden="true">check_circle</span> Aprovar e Assinar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

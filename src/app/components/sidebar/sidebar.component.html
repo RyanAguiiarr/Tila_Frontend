@@ -1,0 +1,59 @@
+<!-- Mobile Sidebar Overlay -->
+@if (isSidebarOpen) {
+  <div class="sidebar-overlay" (click)="closeSidebar()"></div>
+}
+
+<!-- Sidebar -->
+<aside class="dashboard-sidebar" [class.open]="isSidebarOpen">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="logo-icon">
+        <path d="M12 2L2 12l10 10 10-10L12 2z" fill="currentColor" />
+        <path d="M12 2L2 12l10 10V2z" fill="#0b57d0" />
+        <path d="M12 2l10 10-10 10V2z" fill="#1a73e8" />
+      </svg>
+      <span class="logo-text">Tila Medical</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <ul class="nav-list">
+      <li class="nav-item" routerLink="/dashboard" routerLinkActive="active">
+        <span class="material-icons nav-icon">dashboard</span>
+        <span>Painel</span>
+      </li>
+      <li class="nav-item" routerLink="/pacientes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+        <span class="material-icons nav-icon">people</span>
+        <span>Pacientes</span>
+      </li>
+      <li class="nav-item" routerLink="/laudo" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+        <span class="material-icons nav-icon">description</span>
+        <span>Laudos</span>
+      </li>
+      <li class="nav-item" routerLink="/agenda" routerLinkActive="active">
+        <span class="material-icons nav-icon">calendar_today</span>
+        <span>Agenda</span>
+      </li>
+      <li class="nav-item" routerLink="/logs" routerLinkActive="active">
+        <span class="material-icons nav-icon">security</span>
+        <span>Logs de Auditoria</span>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="nav-item settings-item">
+      <span class="material-icons nav-icon">settings</span>
+      <span>Configurações</span>
+    </div>
+    <div class="user-profile">
+      <div class="user-avatar">
+        <img src="https://ui-avatars.com/api/?name=Julian+Smith&background=0D8ABC&color=fff" alt="Dr." />
+      </div>
+      <div class="user-info">
+        <span class="user-name">{{ user()?.nomeCompleto }}</span>
+        <span class="user-role">{{ user()?.especialidade }}</span>
+      </div>
+    </div>
+  </div>
+</aside>
